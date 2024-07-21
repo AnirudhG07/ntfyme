@@ -1,11 +1,19 @@
 # This file contains all the important configurations for ntfyme. Please configure carefully. Read the docs for setup instructions/
 
 [mail]
-    mail_id: ""
-    password: "" 
+    mail_id = ""
+    password =  "" 
 
 # For Local Notifications. Linux will use notify-send command, MacOS will use osascript.
 [local]
     
+    # Linux Configurations
+    [local.linux]
+    enable = "on" # (on/off) the local linux notification
+    success_subject = "Process Terminated: Success" # Subject message for a successful message.
+    error_subject = "Process Terminated: Error"
+    
+    [local.macos]
+    enable = "on"
 
   

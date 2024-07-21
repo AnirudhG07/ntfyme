@@ -1,5 +1,7 @@
 from argparse import ArgumentParser
 
+from notification import notify
+
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
 from .utils.log.log import log_add
@@ -51,6 +53,9 @@ def main():
         result = pipe_exec()
         log_add(result)
         temp_print(result)
+
+    notify(result)
+    return 0
 
 
 if __name__ == "__main__":

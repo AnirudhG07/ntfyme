@@ -45,7 +45,7 @@ def notify_linux(results):
                     f"Process {pid} has ended successfully.",
                 ]
             )
-            return
+            return 0
         subprocess.run(
             [
                 "notify-send",
@@ -53,12 +53,13 @@ def notify_linux(results):
                 f"Process {pid} ended with a failure.",
             ]
         )
-        return
+        return 0
     except Exception as e:
         subprocess.run(
             [
                 "notify-send",
                 "ntfyme: Notification error",
-                "Error occurred in processing your notificatino request.",
+                f"Error {e} occurred in processing your notification request",
             ]
         )
+        return 1
