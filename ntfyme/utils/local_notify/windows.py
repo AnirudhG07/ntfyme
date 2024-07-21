@@ -13,9 +13,9 @@ def windows_config():
 
     with open(config_path, "r") as f:
         conf = toml.load(f)
-    enabled = conf["local_linux"]["enabled"]
-    success_sub = conf["local_linux"]["success_subject"]
-    error_sub = conf["local_linux"]["error_subject"]
+    enabled = conf["local_windows"]["enabled"]
+    success_sub = conf["local_windows"]["success_subject"]
+    error_sub = conf["local_windows"]["error_subject"]
 
     return {
         "enabled": enabled,
@@ -26,7 +26,7 @@ def windows_config():
 
 def notify_windows(results):
     """
-    Linux uses notify-send as default tool. This will be used for linux local notifications
+    windows uses notify-send as default tool. This will be used for linux local notifications
     """
     configs = windows_config()
 

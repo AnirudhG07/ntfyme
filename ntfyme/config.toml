@@ -22,5 +22,9 @@
     success_sound = "Glass" # Sound for a successful message.
     error_sound = "Basso" # Sound for an error message.
     
-
+    # Windows Configurations
+    [local_windows]  
+    enabled = "on" # (on/off) the local linux notification
+    success_subject = "Process Terminated: Success" # Subject message for a successful message.
+    error_subject = "Process Terminated: Error"
   
