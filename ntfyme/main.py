@@ -2,6 +2,7 @@ from argparse import ArgumentParser
 
 from cmd_pipe import pipe_exec
 from cmd_direct import direct_exec
+from log import log_add
 
 def temp_print(result):
     print(f"Output: {result['output']}")
@@ -18,7 +19,6 @@ def main():
     
     Arguments:
         None: Assumes the user wants to run the main command through pipe
-        --fg or -f : Does not send the process to the background
         --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
         log : The command log of ntfyme
         config: The configuration file of ntfyme
@@ -28,10 +28,9 @@ def main():
     """
 
     parser = ArgumentParser(description="ntfyme")
-    parser.add_argument("--fg", "-f", action="store_true", help="Run the process in the foreground")
     parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
-    parser.add_argument("--log", nargs='?', help="The command log of ntfyme")
-    parser.add_argument("--config", nargs='?', help="The configuration file of ntfyme")
+    parser.add_argument("--log", "-l",nargs='?', help="The command log of ntfyme")
+    parser.add_argument("--config",nargs='?', help="The configuration file of ntfyme")
 
     args = parser.parse_args()
 
@@ -44,14 +43,12 @@ def main():
     # Handling --fg and --cmd flags
     if args.cmd:
         result = direct_exec(args.cmd)
+        log_add(result)
         temp_print(result)
-        if args.fg:
-            pass
-        else:
-            # Then piping is used.
-            pass 
+
     else:
         result = pipe_exec()
+        log_add(result)
         temp_print(result)
 
     
