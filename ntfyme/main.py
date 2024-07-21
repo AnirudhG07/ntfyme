@@ -9,7 +9,7 @@ from .utils.log.log import log_add
 
 
 def temp_print(result):
-    print(f"Output: {result['output']}")
+    print(f"Output:\n{result['output']}")
     print(f"Command run: {result['command']}")
     print(f"Time taken: {result['time_taken']} seconds")
     print(f"PID: {result['pid']}")

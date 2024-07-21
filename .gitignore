@@ -3,3 +3,5 @@ ntfyme/utils/log/__pycache__
 ntfyme/cmd/__pycache__
 ntfyme/utils/local_notify/__pycache__
 ntfyme/utils/mail/__pycache__
+ntfyme/utils/log/ntfyme.log
+test.py
