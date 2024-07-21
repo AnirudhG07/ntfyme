@@ -28,7 +28,7 @@ def send_gmail(result):
         connection.starttls()
         connection.login(user=EMAIL_HOST_USER, password=EMAIL_HOST_PASSWORD)
         connection.sendmail(from_addr=  EMAIL_HOST_USER, 
-                            to_addrs="anirudhgupta.ani0711@gmail.com",
+                            to_addrs=RECIEVER_S_MAIL_ID,
                             msg=f"Subject:Hello\n\n Output: {result['output']}\nCommand run: {result['command']}\nTime taken: {result['time_taken']} seconds\nPID: {result['pid']}\nError: {result['error']}")    
         connection.close()
 
