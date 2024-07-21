@@ -1,3 +1,5 @@
+import os
+import subprocess
 from argparse import ArgumentParser
 
 from .cmd.cmd_direct import direct_exec
@@ -22,8 +24,8 @@ def main():
     Arguments:
         None: Assumes the user wants to run the main command through pipe
         --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
-        log : The command log of ntfyme
-        config: The configuration file of ntfyme
+        --log : The command log of ntfyme
+        --config: The configuration file of ntfyme
 
         --help or -h : Shows the help message
         --version or -v : Shows the version of the program
@@ -31,16 +33,30 @@ def main():
 
     parser = ArgumentParser(description="ntfyme")
     parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
-    parser.add_argument("--log", "-l", nargs="?", help="The command log of ntfyme")
-    parser.add_argument("--config", nargs="?", help="The configuration file of ntfyme")
+    parser.add_argument(
+        "--log", "-l", action="store_true", help="The command log of ntfyme"
+    )
+    parser.add_argument(
+        "--config", action="store_true", help="The configuration file of ntfyme"
+    )
 
     args = parser.parse_args()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Handling log and config arguments
     if args.log:
-        print(f"Command log: {args.log}")
+        log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
+        print(log_path)
+        subprocess.run(["less", "--use-color", log_path])
+        return 0
+
     if args.config:
-        print(f"Configuration file: {args.config}")
+        config_path = os.path.join(script_dir, "config.toml")
+        print(config_path)
+        editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
+        # Open the config.toml file in the editor
+        subprocess.run([editor, config_path])
+        return 0
 
     # Handling --fg and --cmd flags
     if args.cmd:
