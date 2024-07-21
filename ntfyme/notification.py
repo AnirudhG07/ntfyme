@@ -3,6 +3,7 @@ import subprocess
 
 from .utils.local_notify.linux import notify_linux
 from .utils.local_notify.macos import notify_macos
+from .utils.local_notify.windows import notify_windows
 from .utils.mail.gmail import send_gmail
 from .utils.mail.telegram import send_telegram
 
@@ -32,6 +33,9 @@ def notify(results):
             notify_linux(results)
         if os == "macos":
             notify_macos(results)
+        else:
+            notify_windows(results)
+
     except Exception as e:
         print("Error occurred in notification as", e)
 
