@@ -15,11 +15,12 @@ def log_print(log_dict):
     time_taken = log_dict['time_taken']
     command = log_dict['command']
 
-    with open('./settings/ntfyme.log', "w") as lg:
-        lg.write(f"{log_time} :: PID: {pid} :: Error status: {'Successful' if error == 'none' else 'Error'}\n")
+    with open('./settings/ntfyme.log', "a") as lg:  # Note: Changed mode to "a" for appending
+        status = f"Successful" if error == 'none' else f"Error"
+        lg.write(f"{log_time} :: PID: {pid} :: Status: {status}\n")
         lg.write(f"Command run: {command} :: Time taken: {time_taken} seconds\n")
         lg.write(f"Error: {error}\n")
-        lg.write("\n")    
+        lg.write("\n")  
 
 def log_add(results):
     """
