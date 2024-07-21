@@ -1,8 +1,9 @@
 from argparse import ArgumentParser
 
-from cmd_pipe import pipe_exec
-from cmd_direct import direct_exec
-from log import log_add
+from .cmd.cmd_direct import direct_exec
+from .cmd.cmd_pipe import pipe_exec
+from .utils.log.log import log_add
+
 
 def temp_print(result):
     print(f"Output: {result['output']}")
@@ -16,7 +17,7 @@ def main():
     """
     -> Handles the flags and errors
     -> calls functions based on the flags
-    
+
     Arguments:
         None: Assumes the user wants to run the main command through pipe
         --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
@@ -29,8 +30,8 @@ def main():
 
     parser = ArgumentParser(description="ntfyme")
     parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
-    parser.add_argument("--log", "-l",nargs='?', help="The command log of ntfyme")
-    parser.add_argument("--config",nargs='?', help="The configuration file of ntfyme")
+    parser.add_argument("--log", "-l", nargs="?", help="The command log of ntfyme")
+    parser.add_argument("--config", nargs="?", help="The configuration file of ntfyme")
 
     args = parser.parse_args()
 
@@ -51,6 +52,6 @@ def main():
         log_add(result)
         temp_print(result)
 
-    
+
 if __name__ == "__main__":
     main()
