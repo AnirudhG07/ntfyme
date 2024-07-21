@@ -2,8 +2,8 @@
 import requests
 import toml
 import os
-USER_NAME = "https://t.me/notify_cli_bot"
-TOKEN = "7306967185:AAHnM_GHZwAAF8XGInfejGk00VqWtEfL4kQ"
+# USER_NAME = "https://t.me/notify_cli_bot"
+TOKEN = "YOUR BOT TOKEN"
 
 def send_gmail(result):
     current_dir = os.path.dirname(__file__)
