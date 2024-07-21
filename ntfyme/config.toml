@@ -1,0 +1,11 @@
+# This file contains all the important configurations for ntfyme. Please configure carefully. Read the docs for setup instructions/
+
+[mail]
+    mail_id: ""
+    password: "" 
+
+# For Local Notifications. Linux will use notify-send command, MacOS will use osascript.
+[local]
+    
+
+  
