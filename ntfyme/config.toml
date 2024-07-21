@@ -15,5 +15,12 @@
     
     [local_macos]
     enabled = "on"
+    success_subject = "Process Terminated: Success" # Subject message for a successful message.
+    error_subject = "Process Terminated: Error"
+    # You can choose sounds from the list {Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, 
+    #Purr, Sosumi, Submarine, Tink} which are present in the system.
+    success_sound = "Glass" # Sound for a successful message.
+    error_sound = "Basso" # Sound for an error message.
+    
 
   

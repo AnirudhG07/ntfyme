@@ -11,14 +11,19 @@ def macos_config():
 
     with open(config_path, "r") as f:
         conf = toml.load(f)
+
     enabled = conf["local_macos"]["enabled"]
     success_sub = conf["local_macos"]["success_subject"]
     error_sub = conf["local_macos"]["error_subject"]
+    success_sound = conf["local_macos"]["success_sound"]
+    error_sound = conf["local_macos"]["error_sound"]
 
     return {
         "enabled": enabled,
         "success_sub": success_sub,
         "error_sub": error_sub,
+        "success_sound": success_sound,
+        "error_sound": error_sound,
     }
 
 
@@ -33,32 +38,27 @@ def notify_macos(results):
 
     success_sub = configs["success_sub"]
     error_sub = configs["error_sub"]
+    success_sound = configs["success_sound"]
+    error_sound = configs["error_sound"]
     pid = results["pid"]
     error = results["error"]
 
+    title, message, sound = "", "", ""
+    if error != "none":
+        title = f"ntfyme :: {error_sub}"
+        message = f"Process {pid} ended with failure."
+        sound = error_sound
+    else:
+        title = f"ntfyme :: {success_sub}"
+        message = f"Process {pid} ended successfully."
+        sound = success_sound
+    # AppleScript for notification
+    script = f"""
+    osascript -e 'display notification "{message}" with title "{title}" sound name "{sound}"'
+    """
+
     try:
-        if error == "none":
-            subprocess.run(
-                [
-                    "notify-send",
-                    f"ntfyme :: {success_sub}",
-                    f"Process {pid} has ended successfully.",
-                ]
-            )
-            return 0
-        subprocess.run(
-            [
-                "notify-send",
-                f"ntfyme :: {error_sub}",
-                f"Process {pid} ended with a failure.",
-            ]
-        )
-        return 0
+        subprocess.run(script, shell=True, check=True)
     except Exception as e:
-        subprocess.run(
-            [
-                "notify-send",
-                "ntfyme: Notification error",
-                f"Error {e} occurred in processing your notification request",
-            ]
-        )
+        print(e)
+        return 1
