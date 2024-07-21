@@ -2,7 +2,8 @@
 import requests
 import toml
 import os
-# USER_NAME = "https://t.me/notify_cli_bot"
+#make a bot for yourself from https://t.me/BotFather and follow the instructions
+# your bot token will be shared
 TOKEN = "YOUR BOT TOKEN"
 
 def send_gmail(result):
