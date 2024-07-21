@@ -10,7 +10,8 @@ def send_gmail(result):
     with open(config_path, 'r') as file:
 
         data = toml.load(file)
-        #
+    
+    
     if data['mail']['mail_id'].endswith("@gmail.com"):
         EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
