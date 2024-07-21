@@ -7,6 +7,15 @@ from .utils.mail.gmail import send_gmail
 from .utils.mail.telegram import send_telegram
 
 
+def notify_runner(notify_function, name, results):
+    try:
+        notify_function(results)
+        return 1
+    except Exception as e:
+        print(f"Error occurred in {name} notifier. Error: {e}")
+        return 0
+
+
 def notify(results):
     """
     notify_macos   General notification function, which controls the calling of all the notification types
@@ -27,14 +36,7 @@ def notify(results):
         print("Error occurred in notification as", e)
 
 
-#    try:
-#        send_telegram(results)
-#    except Exception as e:
-#        print(f"Error in telegram message as {e}")
+#    gmail_output = notify_runner(send_gmail, "gmail", results)
+#    telegram_output = notify_runner(send_telegram, "telegram", results)
 #
-#
-#    try:
-#        send_gmail(results)
-#    except Exception as e:
-#        print("Error in gmail as {e}")
-#
+#    return gmail_output, telegram_output
