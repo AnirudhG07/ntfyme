@@ -8,12 +8,12 @@
 [local]
     
     # Linux Configurations
-    [local.linux]
-    enable = "on" # (on/off) the local linux notification
+    [local_linux]  
+    enabled = "on" # (on/off) the local linux notification
     success_subject = "Process Terminated: Success" # Subject message for a successful message.
     error_subject = "Process Terminated: Error"
     
-    [local.macos]
-    enable = "on"
+    [local_macos]
+    enabled = "on"
 
   

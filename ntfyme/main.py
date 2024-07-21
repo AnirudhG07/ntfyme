@@ -1,9 +1,8 @@
 from argparse import ArgumentParser
 
-from notification import notify
-
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
+from .notification import notify
 from .utils.log.log import log_add
 
 

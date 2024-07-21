@@ -6,14 +6,14 @@ import toml
 
 def linux_config():
     current_dir = os.path.dirname(__file__)
-    package_root = os.path.abspath(os.path.join(current_dir, ".."))
+    package_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
     config_path = os.path.join(package_root, "config.toml")
 
     with open(config_path, "r") as f:
         conf = toml.load(f)
-    enabled = conf["local.linux"]["enabled"]
-    success_sub = conf["local.linux"]["success_subject"]
-    error_sub = conf["local.linux"]["error_subject"]
+    enabled = conf["local_linux"]["enabled"]
+    success_sub = conf["local_linux"]["success_subject"]
+    error_sub = conf["local_linux"]["error_subject"]
 
     return {
         "enabled": enabled,

@@ -6,14 +6,14 @@ import toml
 
 def macos_config():
     current_dir = os.path.dirname(__file__)
-    package_root = os.path.abspath(os.path.join(current_dir, ".."))
+    package_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
     config_path = os.path.join(package_root, "config.toml")
 
     with open(config_path, "r") as f:
         conf = toml.load(f)
-    enabled = conf["local.macos"]["enabled"]
-    success_sub = conf["local.macos"]["success_subject"]
-    error_sub = conf["local.macos"]["error_subject"]
+    enabled = conf["local_macos"]["enabled"]
+    success_sub = conf["local_macos"]["success_subject"]
+    error_sub = conf["local_macos"]["error_subject"]
 
     return {
         "enabled": enabled,
@@ -29,7 +29,7 @@ def notify_macos(results):
     configs = macos_config()
 
     if not configs["enabled"] == "on":
-        return
+        return 0
 
     success_sub = configs["success_sub"]
     error_sub = configs["error_sub"]
