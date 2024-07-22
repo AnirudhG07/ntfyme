@@ -1,10 +1,7 @@
 import os
-import subprocess
-
 import toml
 
 from .gen_notif import generate_notif
-
 
 def windows_config():
     current_dir = os.path.dirname(__file__)
@@ -31,15 +28,15 @@ def notify_windows(results):
     configs = windows_config()
 
     if not configs["enabled"] == "on":
-        return
+        return 0
 
     success_sub = configs["success_sub"]
     error_sub = configs["error_sub"]
     pid = results["pid"]
     error = results["error"]
-
+    print(error)
     title, message = "", ""
-    if error != "none":
+    if error == "none":
         title = f"ntfyme :: {success_sub}"
         message = f"Process {pid} has ended successfully."
     else:

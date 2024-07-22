@@ -42,5 +42,5 @@ def notify(results):
 
 #    gmail_output = notify_runner(send_gmail, "gmail", results)
 #    telegram_output = notify_runner(send_telegram, "telegram", results)
-#
+
 #    return gmail_output, telegram_output

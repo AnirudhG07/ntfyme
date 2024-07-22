@@ -1,6 +1,7 @@
 import os
 import subprocess
 from argparse import ArgumentParser
+import platform 
 
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
@@ -47,7 +48,10 @@ def main():
     if args.log:
         log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
         print(log_path)
-        subprocess.run(["less", "--use-color", log_path])
+        if platform.system() == "Windows":
+            subprocess.run(["cat", log_path])
+        else:
+            subprocess.run(["less", "--use-color", log_path])
         return 0
 
     if args.config:

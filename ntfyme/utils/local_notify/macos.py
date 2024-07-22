@@ -1,8 +1,6 @@
 import os
 import subprocess
-
 import toml
-
 
 def macos_config():
     current_dir = os.path.dirname(__file__)
