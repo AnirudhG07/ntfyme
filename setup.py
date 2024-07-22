@@ -28,7 +28,7 @@ setup(
     author="Anirudh Gupta",
     package_data={},
     packages=find_packages(),
-    install_requires=["toml, pyler"],
+    install_requires=["toml", "pyler", "tomlkit"],
     keywords=["notification", "notify", "cli", "python"],
     python_requires=">=3.11",
     entry_points={

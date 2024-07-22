@@ -1,10 +1,14 @@
 # This file contains all the important configurations for ntfyme. Please configure carefully. Read the docs for setup instructions/
 
 [mail]
-    mail_id = "@gmail.com"
+# Note that enabling mail will require you to enter you ntfyme_key everytime you run the program.
+    enabled = "off" 
+    mail_id = ""
     password =  "" 
 
 [telegram]
+# Note that the token and chat_id will not be encrypted.
+    enabled = "off"
     token = ""
     chat_id = ""
 

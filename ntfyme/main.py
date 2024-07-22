@@ -1,10 +1,12 @@
 import os
+import platform
 import subprocess
 from argparse import ArgumentParser
-import platform 
 
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
+from .manager.encrypt import encrypt
+from .manager.setup_interaction import setup
 from .notification import notify
 from .utils.log.log import log_add
 
@@ -25,6 +27,7 @@ def main():
     Arguments:
         None: Assumes the user wants to run the main command through pipe
         --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
+        --enc or -e : Encrypt password with your key for safety
         --log : The command log of ntfyme
         --config: The configuration file of ntfyme
 
@@ -40,6 +43,18 @@ def main():
     parser.add_argument(
         "--config", action="store_true", help="The configuration file of ntfyme"
     )
+    parser.add_argument(
+        "--enc",
+        "-e",
+        action="store_true",
+        help="Encrypting password through ntfyme_key",
+    )
+    parser.add_argument(
+        "--interactive-setup",
+        "-i",
+        action="store_true",
+        help="Interactively setup your notification configuration",
+    )
 
     args = parser.parse_args()
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,7 +62,6 @@ def main():
     # Handling log and config arguments
     if args.log:
         log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
-        print(log_path)
         if platform.system() == "Windows":
             subprocess.run(["cat", log_path])
         else:
@@ -56,13 +70,32 @@ def main():
 
     if args.config:
         config_path = os.path.join(script_dir, "config.toml")
-        print(config_path)
         editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
         # Open the config.toml file in the editor
-        subprocess.run([editor, config_path])
+        if platform.system() != "Windows":
+            print(
+                "For security reasons, please provide your sudo password to edit the config file."
+            )
+            subprocess.run(["sudo", editor, config_path])
+            return 0
+        else:
+            subprocess.run([editor, config_path])
+            return 0
+
+    if args.enc:
+        print(
+            "Please provide your ntfyme_key for encrypting your password. This key is same throughout ntfyme. Whataver output you get will be based on the same key, please be mindful of the usage."
+        )
+        key = input("Enter your ntfyme_key: ")
+        password = input("Enter your password: ")
+        encrypted_password = encrypt(password, key)
+        print(f"Encrypted password: {encrypted_password}")
         return 0
 
-    # Handling --fg and --cmd flags
+    if args.interactive_setup:
+        setup()
+        return 0
+
     if args.cmd:
         result = direct_exec(args.cmd)
         log_add(result)
