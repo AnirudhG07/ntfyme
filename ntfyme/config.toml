@@ -1,10 +1,17 @@
-# This file contains all the important configurations for ntfyme. Please configure carefully. Read the docs for setup instructions/
+# This file contains all the important configurations for ntfyme. Please configure carefully. Read the docs for setup instructions
+[ntfyme]
+terminal_print = "on" # (on/off) printing the output, errors, etc. in the terminal as the process gets terminated.
+log_pager = "cat" # (cat/less/more/bat, etc) the pager for the log file. Make sure these are supported in your system.
 
 [mail]
-    mail_id = "@gmail.com"
+# Note that enabling mail will require you to enter you ntfyme_key everytime you run the program.
+    enabled = "off" 
+    mail_id = ""
     password =  "" 
 
 [telegram]
+# Note that the token and chat_id will not be encrypted.
+    enabled = "off"
     token = ""
     chat_id = ""
 

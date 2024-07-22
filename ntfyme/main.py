@@ -1,21 +1,16 @@
 import os
+import platform
 import subprocess
+import toml
 from argparse import ArgumentParser
-import platform 
 
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
+from .manager.encrypt import encrypt
+from .manager.setup_interaction import setup
 from .notification import notify
 from .utils.log.log import log_add
-
-
-def temp_print(result):
-    print(f"Output:\n{result['output']}")
-    print(f"Command run: {result['command']}")
-    print(f"Time taken: {result['time_taken']} seconds")
-    print(f"PID: {result['pid']}")
-    print(f"Error: {result['error']}")
-
+from .utils.local_notify.gen_notif import term_print
 
 def main():
     """
@@ -25,6 +20,7 @@ def main():
     Arguments:
         None: Assumes the user wants to run the main command through pipe
         --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
+        --enc or -e : Encrypt password with your key for safety
         --log : The command log of ntfyme
         --config: The configuration file of ntfyme
 
@@ -40,38 +36,76 @@ def main():
     parser.add_argument(
         "--config", action="store_true", help="The configuration file of ntfyme"
     )
+    parser.add_argument(
+        "--enc",
+        "-e",
+        action="store_true",
+        help="Encrypting password through ntfyme_key",
+    )
+    parser.add_argument(
+        "--interactive-setup",
+        "-i",
+        action="store_true",
+        help="Interactively setup your notification configuration",
+    )
 
     args = parser.parse_args()
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "config.toml")
+    with open (config_path, "r") as file:
+        config = toml.load(file)
+
+    log_pager = config["ntfyme"]["log_pager"]
+    terminal_print = config["ntfyme"]["terminal_print"]
 
     # Handling log and config arguments
     if args.log:
         log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
-        print(log_path)
-        if platform.system() == "Windows":
-            subprocess.run(["cat", log_path])
-        else:
-            subprocess.run(["less", "--use-color", log_path])
+        try:
+            subprocess.run([log_pager, log_path])
+        except Exception as e:
+            print(f"Error occurred in opening log file. Error: {e}")
         return 0
 
     if args.config:
         config_path = os.path.join(script_dir, "config.toml")
-        print(config_path)
         editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
         # Open the config.toml file in the editor
-        subprocess.run([editor, config_path])
+        if platform.system() != "Windows":
+            print(
+                "For security reasons, please provide your sudo password to edit the config file."
+            )
+            subprocess.run(["sudo", editor, config_path])
+            return 0
+        else:
+            subprocess.run([editor, config_path])
+            return 0
+
+    if args.enc:
+        print(
+            "Please provide your ntfyme_key for encrypting your password. This key is same throughout ntfyme. Whataver output you get will be based on the same key, please be mindful of the usage."
+        )
+        key = input("Enter your ntfyme_key: ")
+        password = input("Enter your password: ")
+        encrypted_password = encrypt(password, key)
+        print(f"Encrypted password: {encrypted_password}")
         return 0
 
-    # Handling --fg and --cmd flags
+    if args.interactive_setup:
+        setup()
+        return 0
+
     if args.cmd:
         result = direct_exec(args.cmd)
         log_add(result)
-        temp_print(result)
+        if terminal_print == "on":
+            term_print(result)
 
     else:
         result = pipe_exec()
         log_add(result)
-        temp_print(result)
+        if terminal_print == "on":
+            term_print(result)
 
     notify(result)
     return 0
