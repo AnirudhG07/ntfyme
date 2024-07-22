@@ -1,6 +1,7 @@
 import os
 import platform
 import subprocess
+import toml
 from argparse import ArgumentParser
 
 from .cmd.cmd_direct import direct_exec
@@ -62,7 +63,8 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
     with open (config_path, "r") as file:
-        config = file.read()
+        config = toml.load(file)
+
     log_pager = config["ntfyme"]["log_pager"]
     terminal_print = config["ntfyme"]["terminal_print"]
 
@@ -106,13 +108,13 @@ def main():
     if args.cmd:
         result = direct_exec(args.cmd)
         log_add(result)
-        if terminal_print:
+        if terminal_print == "on":
             term_print(result)
 
     else:
         result = pipe_exec()
         log_add(result)
-        if terminal_print:
+        if terminal_print == "on":
             term_print(result)
 
     notify(result)

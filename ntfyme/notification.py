@@ -1,5 +1,6 @@
 import platform
 import toml
+import os
 
 from .utils.local_notify.linux import notify_linux
 from .utils.local_notify.macos import notify_macos
@@ -26,26 +27,28 @@ def notify(results):
     Local - Linux, Macos
     Remote - mail, telegram
     """
-    os = platform.system()
-    os = os.lower()
-    if os not in ["windows", "linux"]:
-        os = "macos"
+    system = platform.system()
+    system = system.lower()
+    if system not in ["windows", "linux"]:
+        system = "macos"
 
     try:
-        if os == "linux":
+        if system == "linux":
             notify_linux(results)
-        if os == "macos":
+        if system == "macos":
             notify_macos(results)
         else:
             notify_windows(results)
 
     except Exception as e:
         print("Error occurred in notification as", e)
-
-    config_path = os.path.join(os.path.dirname(__file__), "config.toml")
+    
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "config.toml")
     with open(config_path, "r") as file:
         config = toml.load(file)
 
+    gmail_output, telegram_output = 0, 0
     if config["mail"]["enabled"] == "on":
         key = input("Enter your ntfyme_key: ")
         gmail_output = notify_runner(send_gmail, "gmail", results, key)
