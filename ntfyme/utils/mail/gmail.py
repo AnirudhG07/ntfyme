@@ -1,12 +1,10 @@
 import os
 import smtplib
-
 import toml
-
 
 def send_gmail(result):
     current_dir = os.path.dirname(__file__)
-    package_root = os.path.abspath(os.path.join(current_dir, ".."))
+    package_root = os.path.abspath(os.path.join(current_dir, "..", ".."	))
     config_path = os.path.join(package_root, "config.toml")
 
     with open(config_path, "r") as file:
@@ -24,7 +22,8 @@ def send_gmail(result):
 
         EMAIL_HOST_USER = data["mail"]["mail_id"]
 
-        EMAIL_HOST_PASSWORD = data["mail"]["password"]
+        EMAIL_HOST_USER = RECIEVER_S_MAIL_ID = "vishnuteja2045@gmail.com"
+        EMAIL_HOST_PASSWORD = "zfouotflyarcibpr" #data["mail"]["password"]
         connection = smtplib.SMTP("smtp.gmail.com", port=587)
         connection.starttls()
         connection.login(user=EMAIL_HOST_USER, password=EMAIL_HOST_PASSWORD)
