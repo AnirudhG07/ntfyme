@@ -1,8 +1,9 @@
 import os
 import platform
 import subprocess
-import toml
 from argparse import ArgumentParser
+
+import toml
 
 from .cmd.cmd_direct import direct_exec
 from .cmd.cmd_pipe import pipe_exec
@@ -10,7 +11,7 @@ from .manager.encrypt import encrypt
 from .manager.setup_interaction import setup
 from .notification import notify
 from .utils.log.log import log_add
-from .utils.local_notify.gen_notif import term_print
+
 
 def main():
     """
@@ -52,7 +53,7 @@ def main():
     args = parser.parse_args()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
-    with open (config_path, "r") as file:
+    with open(config_path, "r") as file:
         config = toml.load(file)
 
     log_pager = config["ntfyme"]["log_pager"]
@@ -77,9 +78,8 @@ def main():
             )
             subprocess.run(["sudo", editor, config_path])
             return 0
-        else:
-            subprocess.run([editor, config_path])
-            return 0
+        subprocess.run([editor, config_path])
+        return 0
 
     if args.enc:
         print(
@@ -95,19 +95,19 @@ def main():
         setup()
         return 0
 
+    result = None
     if args.cmd:
-        result = direct_exec(args.cmd)
+        result = direct_exec(args.cmd, terminal_print)
         log_add(result)
-        if terminal_print == "on":
-            term_print(result)
 
     else:
-        result = pipe_exec()
+        result = pipe_exec(terminal_print)
         log_add(result)
-        if terminal_print == "on":
-            term_print(result)
 
-    notify(result)
+    key = None
+    if config["mail"]["enabled"] == "on":
+        key = input("Enter your ntfyme_key: ")
+    notify(result, key)
     return 0
 
 
