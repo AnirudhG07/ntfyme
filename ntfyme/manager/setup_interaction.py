@@ -1,5 +1,6 @@
 import importlib.util
 import os
+import re
 
 import tomlkit
 
@@ -15,6 +16,37 @@ def loop_on_off(choice):
         choice = input("Enter your choice: ")
     return choice
 
+def valid_telegram_chat_id():
+    chat_id = ""
+    while True:
+        chat_id = input("Enter Telegram Chat ID: ")
+        if chat_id.isdigit():  # Ensuring the chat ID is an integer
+            return int(chat_id)
+        else:
+            print("Invalid Telegram Chat ID: Must be an integer.")
+    return chat_id
+
+def valid_telegram_token():
+    token_pattern = re.compile(r'^\d{9}:[A-Za-z0-9_-]{35}$')
+    token = ""
+    while True:
+        token = input("Enter Telegram Bot Token: ")
+        if token_pattern.match(token):
+            return token
+        else:
+            print("Invalid Telegram Bot Token: Must match the pattern '123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi'.")
+    return token
+
+def valid_gmail_email():
+    gmail_pattern = re.compile(r'^[a-zA-Z0-9_.+-]+@gmail\.com$')
+    email = ""
+    while True:
+        email = input("Enter Gmail Email ID: ")
+        if gmail_pattern.match(email):
+            return email
+        else:
+            print("Invalid Gmail Email ID: Must be a valid Gmail address.")
+    return email
 
 def telegram_setup():
     """
@@ -24,8 +56,8 @@ def telegram_setup():
         "Welcome to the telegram setup. Before starting this setup, please make sure to have read the guidelines on setting up the telegram bot for ntfyme. You will be required to enter your telegram chat_id and token."
     )
     print("Note: This will not be stored with encryption. ")
-    chat_id = input("Enter your telegram chat_id: ")
-    token = input("Enter your telegram token: ")
+    chat_id = valid_telegram_chat_id()
+    token = valid_telegram_token()
 
     enabled = input("Do you want to enable telegram notifications? (on/off): ")
     enabled = loop_on_off(enabled)
@@ -55,7 +87,7 @@ def gmail_setup():
         "Welcome to the gmail setup. Before starting this setup, please make sure to have read the guidelines on setting up your gmail for security purposes. You will be required to enter your gmail id, password and ntfyme_key."
     )
     print("Note: This will be stored with encryption for security purposes.")
-    mail_id = input("Enter your gmail email: ")
+    mail_id = valid_gmail_email()
     password = input("Enter your gmail password: ")
     key = input("Enter your ntfyme_key: ")
     enabled = input(

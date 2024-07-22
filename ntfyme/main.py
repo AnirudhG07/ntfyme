@@ -10,17 +10,7 @@ from .manager.encrypt import encrypt
 from .manager.setup_interaction import setup
 from .notification import notify
 from .utils.log.log import log_add
-
-
-def term_print(result):
-    print(f"PID: {result['pid']}")
-    print(f"Command run: {result['command']}")
-    print(f"Time taken: {result['time_taken']} seconds")
-    error_status = "Success" if result["error"] == "none" else "Failed"
-    print(f"Output:\n{result['output']}")
-    print(f"Error: {result['error']}")
-
-    return 0
+from .utils.local_notify.gen_notif import term_print
 
 def main():
     """
