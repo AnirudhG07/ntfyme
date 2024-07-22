@@ -57,7 +57,9 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/AnirudhG07/ntfyme",
     author="Anirudh Gupta",
-    package_data={},
+    package_data={
+        "ntfyme": ["config.toml", "utls/log/ntfyme.log"],
+    },
     packages=find_packages(),
     install_requires=["toml", "pyler", "tomlkit", "cryptography", "smtplib"],
     keywords=["notification", "notify", "cli", "python"],

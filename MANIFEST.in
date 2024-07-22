@@ -1,0 +1,2 @@
+include ntfyme/config.toml
+include ntfyme/utls/log/ntfyme.log
