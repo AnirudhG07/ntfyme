@@ -11,13 +11,15 @@ from .notification import notify
 from .utils.log.log import log_add
 
 
-def temp_print(result):
-    print(f"Output:\n{result['output']}")
+def term_print(result):
+    print(f"PID: {result['pid']}")
     print(f"Command run: {result['command']}")
     print(f"Time taken: {result['time_taken']} seconds")
-    print(f"PID: {result['pid']}")
+    error_status = "Success" if result["error"] == "none" else "Failed"
+    print(f"Output:\n{result['output']}")
     print(f"Error: {result['error']}")
 
+    return 0
 
 def main():
     """
@@ -58,14 +60,19 @@ def main():
 
     args = parser.parse_args()
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "config.toml")
+    with open (config_path, "r") as file:
+        config = file.read()
+    log_pager = config["ntfyme"]["log_pager"]
+    terminal_print = config["ntfyme"]["terminal_print"]
 
     # Handling log and config arguments
     if args.log:
         log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
-        if platform.system() == "Windows":
-            subprocess.run(["cat", log_path])
-        else:
-            subprocess.run(["less", "--use-color", log_path])
+        try:
+            subprocess.run([log_pager, log_path])
+        except Exception as e:
+            print(f"Error occurred in opening log file. Error: {e}")
         return 0
 
     if args.config:
@@ -99,12 +106,14 @@ def main():
     if args.cmd:
         result = direct_exec(args.cmd)
         log_add(result)
-        temp_print(result)
+        if terminal_print:
+            term_print(result)
 
     else:
         result = pipe_exec()
         log_add(result)
-        temp_print(result)
+        if terminal_print:
+            term_print(result)
 
     notify(result)
     return 0
