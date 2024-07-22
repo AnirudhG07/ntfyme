@@ -1,0 +1,64 @@
+.TH ntfyme 1 "July 2024" "ntfyme Manual" "ntfyme Manual Page"
+NAME
+    ntfyme - Simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc. 
+
+SYNOPSIS
+    ntfyme [OPTION]
+    ntfyme -v, --version
+
+DESCRIPTION
+    ntfyme, a simple cross-platform python notification tool used to notify youself when any process, long to short, successful to process full of erros and blunders terminates. You can get local notification, or a gmail, maybe a telegram bot you activated. Just echo your command and pipe it to the tool and you are good to go.  
+
+OPTIONS
+    -h, --help
+        To see the help message.
+    --cmd, -c
+        To directly run the command.
+    --enc, -e
+        To encrypt your password with your ntfyme_key.
+    --interactive-setup, -i
+        To setup the tool interactively.
+    --log
+        To see the log history of the command usage.
+    --config
+        To see and set the configurations for the tool.
+
+
+FILES
+    ntfyme stores and uses configurations from config.toml file which you can access only using root privilages. It contains information regarding your email, telegram bot, personalised messages, etc. 
+    The log file contains a brief summary of the output with full ERROR description and varioous debugging information present.
+
+NOTES
+    
+    
+EXAMPLES
+    To directly run your command:
+
+        $ ntfyme --[c]md COMMAND
+
+    To pipe the command and run:
+
+        $ echo COMMAND | ntfyme
+
+    To encrypt your password:
+    
+        $ ntfyme --[e]nc PASSWORD
+
+    To setup the tool interactively:
+
+        $ ntfyme --[i]nteractive-setup
+
+    To see the log history:
+    
+        $ ntfyme --log
+
+    To see and set the configurations:
+    
+        $ ntfyme --config
+        
+DEPENDENCIES
+    ntfyme requires python version >= 3.11 and python libraries like tomlkit & toml for toml file utilities, smtplib for mailing, cryptography for encryption, plyer for local notification on windows. For Linux, inbuilt notify-send is used, and inbuilt osacript for MacOS for local notifications.
+
+AUTHOR
+    ntfyme was written by Anirudh Gupta, Vishnu Teja.
+ 
