@@ -36,7 +36,6 @@ def notify_windows(results):
     error_sub = configs["error_sub"]
     pid = results["pid"]
     error = results["error"]
-    print(error)
     title, message = "", ""
     if error == "none":
         title = f"ntfyme :: {success_sub}"
