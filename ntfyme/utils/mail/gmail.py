@@ -1,11 +1,11 @@
 import importlib.util
 import os
+import toml
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 import smtplib
 
-import toml
-
-
-def send_gmail(result):
+def send_gmail(results, key):
     current_dir = os.path.dirname(__file__)
     package_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
 
@@ -13,30 +13,60 @@ def send_gmail(result):
     encrypt_path = os.path.join(package_root, "manager", "encrypt.py")
 
     spec = importlib.util.spec_from_file_location("decrypt", encrypt_path)
-    encrypt_module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(encrypt_module)
+    decrypt_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(decrypt_module)
 
     with open(config_path, "r") as file:
         details = toml.load(file)
 
     mail_id = details["mail"]["mail_id"]
-    password = details["mail"]["password"]
+    encrypted_password = details["mail"]["password"]
+    pid = results["pid"]
+    error = results["error"]
+
+    password = decrypt_module.decrypt(encrypted_password, key)
 
     if mail_id.endswith("@gmail.com"):
-        EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-        EMAIL_USE_TLS = True
-        EMAIL_HOST = "smtp.gmail.com"
-        EMAIL_PORT = 587
+        
+        message =  f"""
+                        <html>
+                        <body>
+                        <p><b>Pid:</b> {pid}</p>
+                        <p><b>command run:</b> {results['command']}</p>
+                        <p><b>Time taken:</b> {results['time_taken']} seconds</p>
+                        </body>
+                        </html>
+                        """
+        message1 = f"""
+                            <html>
+                            <body>
+                            <p><b>Output:</b> {results["output"]}</p>
+                            <p><b>Error:</b> {results["error"]}</p>
+                            </body>
+                            </html>
+                            """
+        filename = f"output{pid}.txt"
+        if len(results["output"]) > 1000:
+            with open(filename, "w") as f:
+                f.write(message1)
+            with open(filename) as f:
+                attachment = MIMEText(f.read())
+                attachment.add_header('Content-Disposition', 'attachment', filename=filename)   
+        else:
+            message = message + message1        
+        print(message)
+        # bold_text = "\033[1mThis text is bold!\033[0m"
+        msg = MIMEMultipart()
+        msg['From'] = msg['To'] = mail_id
+        success_sub = details["mail"]["success_subject"]
+        error_sub = details["mail"]["error_subject"]
+        msg['Subject'] = f"ntfyme :: {success_sub}" if error == "none" else f"ntfyme :: {error_sub}"
 
-        EMAIL_HOST_USER = RECIEVER_S_MAIL_ID = mail_id
-        EMAIL_HOST_PASSWORD = password
-        connection = smtplib.SMTP("smtp.gmail.com", port=587)
-        connection.starttls()
-        connection.login(user=EMAIL_HOST_USER, password=EMAIL_HOST_PASSWORD)
-
-        connection.sendmail(
-            from_addr=EMAIL_HOST_USER,
-            to_addrs=RECIEVER_S_MAIL_ID,
-            msg=f"Subject:Hello\n\n Output: {result['output']}\nCommand run: {result['command']}\nTime taken: {result['time_taken']} seconds\nPID: {result['pid']}\nError: {result['error']}",
-        )
-        connection.close()
+        msg.attach(MIMEText(message, 'html'))
+        if len(results["output"]) > 1000:
+            msg.attach(attachment)
+        server = smtplib.SMTP('smtp.gmail.com: 587')
+        server.starttls()
+        server.login(msg['From'], password)
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
+        server.quit()
