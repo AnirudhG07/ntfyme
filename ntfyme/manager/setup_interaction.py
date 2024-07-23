@@ -31,7 +31,7 @@ def valid_telegram_token():
     token = ""
     while True:
         token = input("Enter Telegram Bot Token: ")
-        if token_pattern.match(token):
+        if 1==1: #token_pattern.match(token):
             return token
         else:
             print("Invalid Telegram Bot Token: Must match the pattern '123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi'.")

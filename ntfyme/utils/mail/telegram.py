@@ -12,6 +12,8 @@ def send_telegram(result):
 
     chat_id = info["telegram"]["chat_id"]
     token = info["telegram"]["token"]
-    message = f"Output: {result['output']}\nCommand run: {result['command']}\nTime taken: {result['time_taken']} seconds\nPID: {result['pid']}\nError: {result['error']}"
-    url = f"https://api.telegram.org/bot{token}/sendMessage?chat_id={chat_id}&text={message}"
-    requests.get(url).json()
+    message = f"*PID:* {result['pid']}\n*Command run:* {result['command']}\n*Time taken:* {result['time_taken']} seconds\n*Output*:\n{result['output']}\n*Error:* {result['error']}"
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
+    requests.post(url, json=data)
+
