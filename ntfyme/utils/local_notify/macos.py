@@ -1,6 +1,8 @@
 import os
 import subprocess
+
 import toml
+
 
 def macos_config():
     current_dir = os.path.dirname(__file__)
@@ -10,9 +12,9 @@ def macos_config():
     with open(config_path, "r") as f:
         conf = toml.load(f)
 
-    enabled = conf["local_macos"]["enabled"]
-    success_sub = conf["local_macos"]["success_subject"]
-    error_sub = conf["local_macos"]["error_subject"]
+    enabled = conf["local"]["enabled"]
+    success_sub = conf["ntfyme"]["success_subject"]
+    error_sub = conf["ntfyme"]["error_subject"]
     success_sound = conf["local_macos"]["success_sound"]
     error_sound = conf["local_macos"]["error_sound"]
 

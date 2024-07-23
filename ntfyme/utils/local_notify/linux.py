@@ -1,6 +1,8 @@
 import os
 import subprocess
+
 import toml
+
 
 def linux_config():
     current_dir = os.path.dirname(__file__)
@@ -9,9 +11,9 @@ def linux_config():
 
     with open(config_path, "r") as f:
         conf = toml.load(f)
-    enabled = conf["local_linux"]["enabled"]
-    success_sub = conf["local_linux"]["success_subject"]
-    error_sub = conf["local_linux"]["error_subject"]
+    enabled = conf["local"]["enabled"]
+    success_sub = conf["ntfyme"]["success_subject"]
+    error_sub = conf["ntfyme"]["error_subject"]
 
     return {
         "enabled": enabled,
