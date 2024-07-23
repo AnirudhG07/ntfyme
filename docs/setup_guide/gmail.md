@@ -20,6 +20,55 @@ If you forget this key, no need to worry. Simply run the `ntfyme --interactive-s
 
 To setup your gmail, you will need to configure your gmail security settings to allow apps to send mails. This is a one time setup and you will not have to do this again.
 
-## Step 1: Allow Less Secure Apps
+## Step 1: Open Web Browser
+![PHOTO-2024-07-23-14-45-53](https://github.com/user-attachments/assets/1f3cfee4-cdc3-4904-a6fe-9482107f5245)
 
-TBC
+Go to `Manage your Google Account`.
+
+## Step 2: Go to Security
+Go to `Security`.
+<br>
+<img width="1175" alt="Screenshot 2024-07-23 at 4 52 04 PM" src="https://github.com/user-attachments/assets/3508bd2f-174c-47b3-977b-bdde4d7e5379">
+
+## Step 3: Enable Two Factor Authorization
+Scroll down and enable two factor authorization.
+<br>
+<img width="889" alt="Screenshot 2024-07-23 at 2 33 30 PM" src="https://github.com/user-attachments/assets/a14dea73-56d3-4129-832d-9dd67523713d">
+<br>
+
+Turn on 2 factor authorization and Give your authentication passkeys which the google asks for.
+<br>
+
+<img width="889" alt="Screenshot 2024-07-23 at 2 34 09 PM" src="https://github.com/user-attachments/assets/95c7c58c-c9b4-4388-b78c-1c1abf1c7565">
+
+## Step 4: Enabling App Password
+
+Come Back to the Security Page and search `app password` in search bar.
+<br>
+
+<img width="763" alt="Screenshot 2024-07-23 at 2 38 30 PM" src="https://github.com/user-attachments/assets/2ca98afe-a6af-4934-9d23-5b9146c3169f">
+<br>
+
+Now, simply write your app name to anything like `ntfyme_bot` or anything you wish.
+<br>
+
+<img width="889" alt="Screenshot 2024-07-23 at 2 37 26 PM" src="https://github.com/user-attachments/assets/1bac9f2d-a068-4ea0-809f-c3396f90a68d">
+<br>
+
+Now copy the app password you are given. Save this APP PASSWORD since you will be required to give this password to setup the GMAIL with ntfyme.
+
+## Step 5: Configuring ntfyme
+Run the command -
+```bash
+ntfyme -i
+```
+Enter `1` for gmail setup. Enter your gmail id as well as your APP PASSWORD you got.
+**NOTE:** It is recommended to not remove the spaces between them, if you do then remember to remove it again next time you configure GMAIL again.
+
+Enter the `ntfyme_key` which you have to think and make it yourself. And you are DONE!
+
+Congratulations, you should be able to get email from ntfyme.
+
+
+
+
