@@ -17,11 +17,14 @@ def generate_notif(title, message):
 
 
 def term_print(result):
+    """
+    This function is called only when the terminal_print is set to on in the config file.
+    Thus the output will already be printed in the terminal.
+    """
     print("\nntfyme :: Diagnostics")
     print(f"PID: {result['pid']}")
     print(f"Command run: {result['command']}")
     print(f"Time taken: {result['time_taken']} seconds")
-    print(f"Output:\n{result['output']}")
     print(f"Error:\n{result['error']}")
 
     return 0
