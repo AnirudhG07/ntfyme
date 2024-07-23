@@ -63,12 +63,10 @@ setup(
     packages=find_packages(),
     install_requires=[
         "toml",
-        "pyler",
+        "plyer",
         "tomlkit",
         "cryptography",
-        "smtplib",
         "selectors",
-        "threading",
     ],
     keywords=["notification", "notify", "cli", "python"],
     python_requires=">=3.11",

@@ -1,8 +1,10 @@
 import os
+
 import requests
 import toml
 
 def send_telegram(results):
+
     current_dir = os.path.dirname(__file__)
     package_root = os.path.abspath(os.path.join(current_dir, "..", ".."))
     config_path = os.path.join(package_root, "config.toml")

@@ -105,13 +105,13 @@ To view the log page, you can run `ntfyme --log` which will use the `log_pager` 
 
 ### 2. \[mail\]
 
-Here you can set your mail_id, encrypted password which you can get by entering your password in `ntfyme --enc`. You can also set the `enabled` option `on/off` anytime to enable/disable the mail notifications.
+Here you can set your mail_id, encrypted app password which you can get by entering your password in `ntfyme --enc`.
 
 ### 3. \[telegram\]
 
-Here you can set your bot_token and chat_id which you can get by creating a bot in telegram. You can also set the `enabled` option `on/off` anytime to enable/disable the telegram bot notifications.
+Here you can set your bot_token and chat_id which you can get by creating a bot in telegram.
 
 ### 4. \[local\]
 
-For local notification, the code will automatically detect your OS and based on that, will select `[local_{os}]` key. For your OS, you can set the success or error message as you like and also set the `enabled` option `on/off` anytime to enable/disable the local notifications.
+For local notification, the code will automatically detect your OS and based on that, will select `[local_{os}]` key. Currently only Sppecial configurations for MacOS is present. You will have to change `enabled` to `on/off` to `enable/disable` local notification.
 PLEASE DO NOT change other OS's configurations for no reason.
