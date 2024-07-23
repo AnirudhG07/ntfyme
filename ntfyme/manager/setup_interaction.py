@@ -1,6 +1,7 @@
 import importlib.util
 import os
 import re
+import requests
 
 import tomlkit
 
@@ -27,15 +28,20 @@ def valid_telegram_chat_id():
     return chat_id
 
 def valid_telegram_token():
-    token_pattern = re.compile(r'^\d{9}:[A-Za-z0-9_-]{35}$')
     token = ""
+    pattern = re.compile(r'^\d{6}:[A-Za-z0-9_-]{35}$')
     while True:
         token = input("Enter Telegram Bot Token: ")
-        if 1==1: #token_pattern.match(token):
-            return token
+        if pattern.match(token):  # Optional: Keep regex check for initial format validation
+            response = requests.get(f'https://api.telegram.org/bot{token}/getMe')
+            if response.status_code == 200 and response.json().get('ok'):
+                return token
+            elif response.status_code >= 400:
+                print("Unable to authenticate with Telegram API. Please check your internet or input a valid token.")
+            else:
+                print("Invalid Telegram Bot Token: Failed to authenticate with Telegram API.")
         else:
-            print("Invalid Telegram Bot Token: Must match the pattern '123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi'.")
-    return token
+            print("Invalid Telegram Bot Token: Must match the pattern '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'.")
 
 def valid_gmail_email():
     gmail_pattern = re.compile(r'^[a-zA-Z0-9_.+-]+@gmail\.com$')

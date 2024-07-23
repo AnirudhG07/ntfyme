@@ -7,7 +7,6 @@ from .utils.local_notify.gen_notif import term_print
 from .utils.local_notify.linux import notify_linux
 from .utils.local_notify.macos import notify_macos
 from .utils.local_notify.windows import notify_windows
-from .utils.log.log import log_add
 from .utils.mail.gmail import send_gmail
 from .utils.mail.telegram import send_telegram
 
@@ -34,11 +33,10 @@ def notify(results, key):
     system = system.lower()
     if system not in ["windows", "linux"]:
         system = "macos"
-
     try:
         if system == "linux":
             notify_linux(results)
-        if system == "macos":
+        elif system == "macos":
             notify_macos(results)
         else:
             notify_windows(results)
