@@ -16,14 +16,4 @@ def send_telegram(result):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
     requests.post(url, json=data)
-#     requests.get(url).json()
 
-
-
-
-# message = f"This is a message with *_bold_* and _italic_ text."
-
-# # Send the message using the Telegram Bot API endpoint
-# url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-# data = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
-# response = requests.post(url, json=data)
