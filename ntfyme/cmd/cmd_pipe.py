@@ -4,6 +4,17 @@ import time
 
 from .live_capture import capture
 
+def seconds_to_time(seconds):
+    """
+    Converts seconds to human readable time format.
+    """
+    m, s = divmod(seconds, 60)
+    h, m = divmod(m, 60)
+    if h == 0:
+        if m == 0:
+            return f"{s}"
+        return f"{m} minutes {s}"
+    return f"{h} hours {m} minutes {s}"
 
 def pipe_exec(terminal_print) -> dict:
     """
@@ -31,6 +42,8 @@ def pipe_exec(terminal_print) -> dict:
 
     end_time = time.time()
     time_taken = end_time - start_time
+    time_taken = seconds_to_time(time_taken)
+
     return {
         "output": "\n".join(output),
         "command": "".join(cmd),
