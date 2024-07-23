@@ -26,10 +26,7 @@ def send_gmail(results, key):
     pid = results["pid"]
     error = results["error"]
 
-    try:
-        password = decrypt_module.decrypt(encrypted_password, key)
-    except Exception as e:
-        print(f"Incorrect password, try again. Error {e}")
+    password = decrypt_module.decrypt(encrypted_password, key)
 
     if mail_id.endswith("@gmail.com"):
 
@@ -52,9 +49,13 @@ def send_gmail(results, key):
                             </html>
                             """
         filename = f"output{pid}.txt"
+        message_mail = f"""
+        Output:\n{results["output"]}\n
+        Error:\n{results["error"]}
+        """
         if len(results["output"]) > 1000:
             with open(filename, "w") as f:
-                f.write(message1)
+                f.write(message_mail)
             with open(filename) as f:
                 attachment = MIMEText(f.read())
                 attachment.add_header(
@@ -65,8 +66,8 @@ def send_gmail(results, key):
         # bold_text = "\033[1mThis text is bold!\033[0m"
         msg = MIMEMultipart()
         msg["From"] = msg["To"] = mail_id
-        success_sub = details["mail"]["success_subject"]
-        error_sub = details["mail"]["error_subject"]
+        success_sub = details["ntfyme"]["success_subject"]
+        error_sub = details["ntfyme"]["error_subject"]
         msg["Subject"] = (
             f"ntfyme :: {success_sub}" if error == "none" else f"ntfyme :: {error_sub}"
         )
@@ -79,3 +80,7 @@ def send_gmail(results, key):
         server.login(msg["From"], password)
         server.sendmail(msg["From"], msg["To"], msg.as_string())
         server.quit()
+
+        # remove the file after sending the mail
+        if os.path.exists(filename):
+            os.remove(filename)
