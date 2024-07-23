@@ -1,6 +1,8 @@
 import os
+
 import requests
 import toml
+
 
 def send_telegram(result):
     current_dir = os.path.dirname(__file__)
@@ -16,4 +18,3 @@ def send_telegram(result):
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     data = {"chat_id": chat_id, "text": message, "parse_mode": "Markdown"}
     requests.post(url, json=data)
-

@@ -4,7 +4,7 @@ For security reasons, `ntfyme` would like to secure your sensitive information l
 
 ## Usage
 
-This key is made by you which the code will use to decrypt your gmail password and use it to send mails. This key is not stored anywhere in the code/by the code.
+This key is made by you which the code will use to decrypt your gmail app password and use it to send mails. This key is not stored anywhere in the code/by the code.
 It is stored ONLY IN YOUR HEAD or wherever you decide to store it.
 
 ## Oops! I forgot my key
