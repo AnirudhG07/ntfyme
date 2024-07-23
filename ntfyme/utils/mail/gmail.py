@@ -63,7 +63,7 @@ def send_gmail(results, key):
                 )
         else:
             message = message + message1
-        # bold_text = "\033[1mThis text is bold!\033[0m"
+
         msg = MIMEMultipart()
         msg["From"] = msg["To"] = mail_id
         success_sub = details["ntfyme"]["success_subject"]

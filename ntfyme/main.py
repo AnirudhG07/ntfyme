@@ -95,19 +95,35 @@ def main():
         setup()
         return 0
 
-    result = None
-    key = None
+    result, key = None, None
+    log_info = {}
     if config["mail"]["enabled"] == "on":
         key = input("Enter your ntfyme_key: ")
-    if args.cmd:
-        result = direct_exec(args.cmd, terminal_print)
-        log_add(result)
-
+        if not key:
+            log_info["key"] = "1"
     else:
-        result = pipe_exec(terminal_print)
-        log_add(result)
+        log_info["key"] = "0"
 
-    notify(result, key)
+    try:
+        if args.cmd:
+            result = direct_exec(args.cmd, terminal_print)
+            log_info["execution"] = ": Direct :: 0"
+        else:
+            result = pipe_exec(terminal_print)
+            log_info["execution"] = ": pipe :: 0"
+
+    except Exception as e:
+        print(f"Error occurred in command execution. Error: {e}")
+        log_info["error"] = "Execution: 1"
+
+    try:
+        notify(result, key)
+        log_info["notify"] = "0"
+    except Exception as e:
+        print(f"Error occurred in notification. Error: {e}")
+        log_info["notify"] = "1"
+
+    log_add(result, log_info)
     return 0
 
 
