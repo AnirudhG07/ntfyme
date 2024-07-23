@@ -96,6 +96,9 @@ def main():
         return 0
 
     result = None
+    key = None
+    if config["mail"]["enabled"] == "on":
+        key = input("Enter your ntfyme_key: ")
     if args.cmd:
         result = direct_exec(args.cmd, terminal_print)
         log_add(result)
@@ -104,9 +107,6 @@ def main():
         result = pipe_exec(terminal_print)
         log_add(result)
 
-    key = None
-    if config["mail"]["enabled"] == "on":
-        key = input("Enter your ntfyme_key: ")
     notify(result, key)
     return 0
 

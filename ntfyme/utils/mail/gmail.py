@@ -1,9 +1,11 @@
 import importlib.util
 import os
-import toml
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import smtplib
+
+import toml
+
 
 def send_gmail(results, key):
     current_dir = os.path.dirname(__file__)
@@ -24,13 +26,17 @@ def send_gmail(results, key):
     pid = results["pid"]
     error = results["error"]
 
-    password = decrypt_module.decrypt(encrypted_password, key)
+    try:
+        password = decrypt_module.decrypt(encrypted_password, key)
+    except Exception as e:
+        print(f"Incorrect password, try again. Error {e}")
 
     if mail_id.endswith("@gmail.com"):
-        
-        message =  f"""
+
+        message = f"""
                         <html>
                         <body>
+                        <p><b>ntfyme :: Diagnostics </b></p>
                         <p><b>Pid:</b> {pid}</p>
                         <p><b>command run:</b> {results['command']}</p>
                         <p><b>Time taken:</b> {results['time_taken']} seconds</p>
@@ -51,22 +57,25 @@ def send_gmail(results, key):
                 f.write(message1)
             with open(filename) as f:
                 attachment = MIMEText(f.read())
-                attachment.add_header('Content-Disposition', 'attachment', filename=filename)   
+                attachment.add_header(
+                    "Content-Disposition", "attachment", filename=filename
+                )
         else:
-            message = message + message1        
-        print(message)
+            message = message + message1
         # bold_text = "\033[1mThis text is bold!\033[0m"
         msg = MIMEMultipart()
-        msg['From'] = msg['To'] = mail_id
+        msg["From"] = msg["To"] = mail_id
         success_sub = details["mail"]["success_subject"]
         error_sub = details["mail"]["error_subject"]
-        msg['Subject'] = f"ntfyme :: {success_sub}" if error == "none" else f"ntfyme :: {error_sub}"
+        msg["Subject"] = (
+            f"ntfyme :: {success_sub}" if error == "none" else f"ntfyme :: {error_sub}"
+        )
 
-        msg.attach(MIMEText(message, 'html'))
+        msg.attach(MIMEText(message, "html"))
         if len(results["output"]) > 1000:
             msg.attach(attachment)
-        server = smtplib.SMTP('smtp.gmail.com: 587')
+        server = smtplib.SMTP("smtp.gmail.com: 587")
         server.starttls()
-        server.login(msg['From'], password)
-        server.sendmail(msg['From'], msg['To'], msg.as_string())
+        server.login(msg["From"], password)
+        server.sendmail(msg["From"], msg["To"], msg.as_string())
         server.quit()

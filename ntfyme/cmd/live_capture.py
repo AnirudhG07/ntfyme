@@ -1,3 +1,4 @@
+import os
 import selectors
 import subprocess
 import sys
@@ -19,6 +20,8 @@ def read_output(pipe, output_list, print_func):
 
 
 def capture(cmd):
+    env = os.environ.copy()
+    env["PYTHONUNBUFFERED"] = "1"
     process = subprocess.Popen(
         cmd,
         stdout=subprocess.PIPE,
@@ -26,6 +29,7 @@ def capture(cmd):
         shell=True,
         text=True,
         bufsize=0,
+        env=env,
     )
     output, error = [], []
 
