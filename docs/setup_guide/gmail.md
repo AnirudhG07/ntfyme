@@ -21,19 +21,16 @@ If you forget this key, no need to worry. Simply run the `ntfyme --interactive-s
 To setup your gmail, you will need to configure your gmail security settings to allow apps to send mails. This is a one time setup and you will not have to do this again.
 
 ## Step 1: Open Web Browser
-
 ![PHOTO-2024-07-23-14-45-53](https://github.com/user-attachments/assets/1f3cfee4-cdc3-4904-a6fe-9482107f5245)
 
 Go to `Manage your Google Account`.
 
 ## Step 2: Go to Security
-
 Go to `Security`.
 <br>
 <img width="1175" alt="Screenshot 2024-07-23 at 4 52 04 PM" src="https://github.com/user-attachments/assets/3508bd2f-174c-47b3-977b-bdde4d7e5379">
 
 ## Step 3: Enable Two Factor Authorization
-
 Scroll down and enable two factor authorization.
 <br>
 <img width="889" alt="Screenshot 2024-07-23 at 2 33 30 PM" src="https://github.com/user-attachments/assets/a14dea73-56d3-4129-832d-9dd67523713d">
@@ -61,13 +58,10 @@ Now, simply write your app name to anything like `ntfyme_bot` or anything you wi
 Now copy the app password you are given. Save this APP PASSWORD since you will be required to give this password to setup the GMAIL with ntfyme.
 
 ## Step 5: Configuring ntfyme
-
 Run the command -
-
 ```bash
 ntfyme -i
 ```
-
 Enter `1` for gmail setup. Enter your gmail id as well as your APP PASSWORD you got.
 **NOTE:** It is recommended to not remove the spaces between them, if you do then remember to remove it again next time you configure GMAIL again.
 
