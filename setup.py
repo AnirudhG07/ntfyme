@@ -65,9 +65,10 @@ setup(
         "plyer",
         "tomlkit",
         "cryptography",
+        "requests",
     ],
     keywords=["notification", "notify", "cli", "python"],
-    python_requires=">=3.11",
+    python_requires=">=3.10",
     entry_points={
         "console_scripts": [
             "ntfyme=ntfyme.main:main",
