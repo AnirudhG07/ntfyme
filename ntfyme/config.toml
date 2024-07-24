@@ -5,6 +5,13 @@ log_pager = "cat" # (cat/less/more/bat, etc) the pager for the log file. Make su
 success_subject = "Process Terminated: Success" # Subject message for a successful message.
 error_subject = "Process Terminated: Error"
 
+[suspend]
+# Terminating processed with no output for a while(suspended) and sending such notification.
+timeout = 300 # minimum wait time in seconds before the process is considered suspended.
+check_interval = 30 # interval time in seconds to check if the process is suspended.
+iterations = 10 # number of iterations to check if the process is suspended.
+# Thus the total time of wait after which process will be terminated = timeout + check_interval * iterations
+
 [mail]
 # Note that enabling mail will require you to enter you ntfyme_key everytime you run the program.
 enabled = "off" 

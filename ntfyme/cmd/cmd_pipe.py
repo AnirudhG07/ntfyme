@@ -4,6 +4,7 @@ import time
 
 from .live_capture import capture
 
+
 def seconds_to_time(seconds):
     """
     Converts seconds to human readable time format.
@@ -16,7 +17,8 @@ def seconds_to_time(seconds):
         return f"{m} minutes {s}"
     return f"{h} hours {m} minutes {s}"
 
-def pipe_exec(terminal_print) -> dict:
+
+def pipe_exec(terminal_print, track_process) -> dict:
     """
     Executes the main command and returns the output, command, time taken and pid of the process.
     """
@@ -29,7 +31,7 @@ def pipe_exec(terminal_print) -> dict:
     start_time = time.time()
 
     if terminal_print == "on":
-        results = capture(cmd)
+        results = capture(cmd, track_process)
     else:
         process = subprocess.Popen(
             cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True

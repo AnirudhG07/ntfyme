@@ -2,8 +2,8 @@ import subprocess
 import sys
 import time
 
-
 from .live_capture import capture
+
 
 def seconds_to_time(seconds):
     """
@@ -18,7 +18,7 @@ def seconds_to_time(seconds):
     return f"{h} hours {m} minutes {s}"
 
 
-def direct_exec(cmd, terminal_print):
+def direct_exec(cmd, terminal_print, track_process):
 
     if cmd is None:
         print("Error: No input provided through direct execution.")
@@ -26,7 +26,7 @@ def direct_exec(cmd, terminal_print):
 
     start_time = time.time()
     if terminal_print == "on":
-        results = capture(cmd)
+        results = capture(cmd, track_process)
     else:
         process = subprocess.Popen(
             cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
