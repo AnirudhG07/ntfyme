@@ -11,6 +11,22 @@ from ntfyme.utils.mail.gmail import send_gmail
 from ntfyme.utils.mail.telegram import send_telegram
 
 
+def get_os():
+    if platform.system().lower() == "windows":
+        return "windows"
+    elif platform.system().lower() not in ["linux", "windows"]:
+        return "macos"
+
+    else:
+        # Check if running under WSL
+        with open("/proc/version", "r") as f:
+            proc_version = f.read()
+
+        if "microsoft" in proc_version.lower() or "wsl" in proc_version.lower():
+            return "wsl"
+        return "linux"
+
+
 def notify_runner(notify_function, name, results, key):
     try:
         if name == "gmail":
@@ -29,10 +45,8 @@ def notify(results, key):
     Local - Linux, Macos
     Remote - mail, telegram
     """
-    system = platform.system()
-    system = system.lower()
-    if system not in ["windows", "linux"]:
-        system = "macos"
+    system = get_os()
+
     try:
         if system == "linux":
             notify_linux(results)
