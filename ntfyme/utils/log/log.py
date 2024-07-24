@@ -17,6 +17,7 @@ def log_print(log_dict):
     error = log_dict["error"]
     time_taken = log_dict["time_taken"]
     command = log_dict["command"]
+    track_process = log_dict["track_process"]
 
     system = platform.system()
     if system not in ["Windows", "Linux"]:
@@ -32,7 +33,7 @@ def log_print(log_dict):
             f"Command run: {command}\nTime taken: {time_taken} seconds :: OS: {system}\n"
         )
         lg.write(
-            f"Key: {log_dict['key']} :: Execution{log_dict['execution']} :: Notify: {log_dict['notify']}\n"
+            f"Key: {log_dict['key']} :: Execution{log_dict['execution']} :: Notify: {log_dict['notify']} :: Track-Process: {track_process}\n"
         )
         lg.write(f"Error: {error}\n")
         lg.write("\n")
@@ -56,6 +57,7 @@ def log_add(results: dict, log_info: dict):
         "key": log_info["key"],
         "execution": log_info["execution"],
         "notify": log_info["notify"],
+        "track_process": log_info["track_process"],
     }
 
     log_print(log_dict)

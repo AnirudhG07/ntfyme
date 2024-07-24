@@ -2,6 +2,7 @@ import os
 import platform
 import subprocess
 from argparse import ArgumentParser, RawTextHelpFormatter
+
 import toml
 
 from ntfyme.cmd.cmd_direct import direct_exec
@@ -29,8 +30,10 @@ def main():
     """
 
     parser = ArgumentParser(description="ntfyme")
-    parser = ArgumentParser(description="""ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc. For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.""",
-                                        formatter_class=RawTextHelpFormatter)
+    parser = ArgumentParser(
+        description="""ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc. For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.""",
+        formatter_class=RawTextHelpFormatter,
+    )
     parser.add_argument("--version", "-v", action="version", version="ntfyme v0.0.1")
     parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
     parser.add_argument(
@@ -50,6 +53,12 @@ def main():
         "-i",
         action="store_true",
         help="Interactively setup your notification configuration",
+    )
+    parser.add_argument(
+        "--track-process",
+        "-t",
+        action="store_true",
+        help="Track the process for suspensions and terminate if stalled for a long time",
     )
 
     args = parser.parse_args()
@@ -106,12 +115,19 @@ def main():
     else:
         log_info["key"] = "0"
 
+    if args.track_process:
+        track_process = "on"
+        log_info["track_process"] = "0"
+    else:
+        track_process = "off"
+        log_info["track_process"] = "1"
+
     try:
         if args.cmd:
-            result = direct_exec(args.cmd, terminal_print)
+            result = direct_exec(args.cmd, terminal_print, track_process)
             log_info["execution"] = ": Direct :: 0"
         else:
-            result = pipe_exec(terminal_print)
+            result = pipe_exec(terminal_print, track_process)
             log_info["execution"] = ": pipe :: 0"
 
     except Exception as e:
