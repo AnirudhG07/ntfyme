@@ -19,10 +19,10 @@ def term_print(result):
     This function is called only when the terminal_print is set to on in the config file.
     Thus the output will already be printed in the terminal.
     """
-    print("\nntfyme :: Diagnostics")
-    print(f"PID: {result['pid']}")
-    print(f"Command run: {result['command']}")
-    print(f"Time taken: {result['time_taken']} seconds")
-    print(f"Error:\n{result['error']}")
+    print("\033[92m\nntfyme :: Diagnostics\033[0m")
+    print("\033[93mPID:\033[0m", result["pid"])
+    print("\033[93mCommand run:\033[0m", result["command"])
+    print("\033[93mTime taken:\033[0m", result["time_taken"], "seconds")
+    print("\033[91mError:\033[0m", result["error"])
 
     return 0

@@ -20,10 +20,6 @@ This tool helps you ease your life with appropriate notifications you can set in
   - [Manual Installation](#manual-installation)
 - [Getting Started](#getting-started)
 - [Configurations](#configurations)
-  - [1. [ntfyme]](#1-ntfyme)
-  - [2. [mail]](#2-mail)
-  - [3. [telegram]](#3-telegram)
-  - [4. [local]](#4-local)
 - [Contribute](#contribute)
 
 ## Previews/Screenshots
@@ -37,6 +33,7 @@ TBD
 - Get local notifications when your command is done.
 - Get notifications like gmail, telegram bot, etc. when your command is done.
 - Get information about output, errors, time taken, pid and more in the notification.
+- Track your process for possible suspensions and get notified after thorough diagnostics.
 
 ## Usages
 
@@ -124,26 +121,8 @@ To know more about the `config.toml` and configurations, read below.
 
 `ntfyme` allows you to configure the tool according to your needs. The configurations are stored in the `config.toml` which you can open using root privilages while running `ntfyme --config`. Let's understand some of the configurations below.
 
-`ntfyme` uses `on/off` to enable/disable ny settings. Please do not input any other values other than `on/off` for the `enabled` option.
-
-### 1. \[ntfyme\]
-
-In this key, we allow you to print the output of the command run inside the terminal itself. This is useful when you want to see the output of the command run in the terminal itself. By default, this is set to `on`.
-
-To view the log page, you can run `ntfyme --log` which will use the `log_pager` value present in the toml file. By default, it is set to `cat`. You can set it to `less, bat, more`, etc. according to your needs and OS.
-
-### 2. \[mail\]
-
-Here you can set your mail_id, encrypted app password which you can get by entering your password in `ntfyme --enc`.
-
-### 3. \[telegram\]
-
-Here you can set your bot_token and chat_id which you can get by creating a bot in telegram.
-
-### 4. \[local\]
-
-For local notification, the code will automatically detect your OS and based on that, will select `[local_{os}]` key. Currently only Sppecial configurations for MacOS is present. You will have to change `enabled` to `on/off` to `enable/disable` local notification.
-PLEASE DO NOT change other OS's configurations for no reason.
+`ntfyme` uses `on/off` to enable/disable ny settings. Please do not input any other values other than `on/off` for the `enabled` option. The comments for each option is mentioned, please read them before changing any option. They will give a thorough idea about the configurations and their usage.
+Please do not mess around with the `config.toml` file, as it may lead to some errors in the tool.
 
 ## Contribute
 

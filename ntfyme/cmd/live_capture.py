@@ -119,8 +119,6 @@ def capture(cmd, track_process):
     if enabled and monitor.stalled_count >= iterations:
         error_message += "Error: Process output is stalled."
 
-    print("hahahahaha")
-    print(process.pid)
     return {
         "output": "".join(output),
         "error": error_message,
