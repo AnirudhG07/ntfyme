@@ -28,3 +28,7 @@ enabled = "on"
 success_sound = "Glass" # Sound for a successful message.
 error_sound = "Basso" # Sound for an error message.
 
+[local_windows]
+# Local notification time for windows (NOT WSL)
+timeout = 5 # Timeout time
+

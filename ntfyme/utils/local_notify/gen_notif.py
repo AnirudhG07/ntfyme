@@ -1,14 +1,12 @@
 from plyer import notification
 
 
-def generate_notif(title, message):
+def generate_notif(title, message, timeout):
     """
     General notifier.
     """
     try:
-        notification.notify(
-            title=title, message=message, app_icon=None, timeout=10, toast=False
-        )
+        notification.notify(title=title, message=message, app_icon="", timeout=timeout)
         return 0
 
     except Exception as e:

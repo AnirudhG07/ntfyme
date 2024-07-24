@@ -15,11 +15,12 @@ def windows_config():
     enabled = conf["local"]["enabled"]
     success_sub = conf["ntfyme"]["success_subject"]
     error_sub = conf["ntfyme"]["error_subject"]
-
+    timeout = conf["local_windows"]["timeout"]
     return {
         "enabled": enabled,
         "success_sub": success_sub,
         "error_sub": error_sub,
+        "timeout": timeout,
     }
 
 
@@ -34,6 +35,7 @@ def notify_windows(results):
 
     success_sub = configs["success_sub"]
     error_sub = configs["error_sub"]
+    timeout = configs["timeout"]
     pid = results["pid"]
     error = results["error"]
     title, message = "", ""
@@ -44,5 +46,5 @@ def notify_windows(results):
         title = f"ntfyme :: {error_sub}"
         message = f"Process {pid} ended with a failure."
 
-    err_code = generate_notif(title, message)
+    err_code = generate_notif(title, message, timeout)
     return err_code
