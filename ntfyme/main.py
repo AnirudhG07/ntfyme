@@ -1,16 +1,15 @@
 import os
 import platform
 import subprocess
-from argparse import ArgumentParser
-
+from argparse import ArgumentParser, RawTextHelpFormatter
 import toml
 
-from .cmd.cmd_direct import direct_exec
-from .cmd.cmd_pipe import pipe_exec
-from .manager.encrypt import encrypt
-from .manager.setup_interaction import setup
-from .notification import notify
-from .utils.log.log import log_add
+from ntfyme.cmd.cmd_direct import direct_exec
+from ntfyme.cmd.cmd_pipe import pipe_exec
+from ntfyme.manager.encrypt import encrypt
+from ntfyme.manager.setup_interaction import setup
+from ntfyme.notification import notify
+from ntfyme.utils.log.log import log_add
 
 
 def main():
@@ -30,6 +29,9 @@ def main():
     """
 
     parser = ArgumentParser(description="ntfyme")
+    parser = ArgumentParser(description="""ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc. For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.""",
+                                        formatter_class=RawTextHelpFormatter)
+    parser.add_argument("--version", "-v", action="version", version="ntfyme v0.0.1")
     parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
     parser.add_argument(
         "--log", "-l", action="store_true", help="The command log of ntfyme"

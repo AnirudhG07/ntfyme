@@ -1,6 +1,5 @@
 import gzip
 import os
-import platform
 import shutil
 
 from setuptools import find_packages, setup
@@ -58,7 +57,7 @@ setup(
     url="https://github.com/AnirudhG07/ntfyme",
     author="Anirudh Gupta",
     package_data={
-        "ntfyme": ["config.toml", "utls/log/ntfyme.log"],
+        "ntfyme": ["config.toml", "utils/*, manager/*, cmd/*"],
     },
     packages=find_packages(),
     install_requires=[
@@ -66,7 +65,6 @@ setup(
         "plyer",
         "tomlkit",
         "cryptography",
-        "selectors",
     ],
     keywords=["notification", "notify", "cli", "python"],
     python_requires=">=3.11",

@@ -6,3 +6,6 @@ ntfyme/utils/mail/__pycache__
 ntfyme/utils/log/ntfyme.log
 test.py
 ntfyme/manager/__pycache__
+dist
+build/lib/ntfyme
+ntfyme.egg-info

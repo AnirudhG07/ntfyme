@@ -3,12 +3,12 @@ import platform
 
 import toml
 
-from .utils.local_notify.gen_notif import term_print
-from .utils.local_notify.linux import notify_linux
-from .utils.local_notify.macos import notify_macos
-from .utils.local_notify.windows import notify_windows
-from .utils.mail.gmail import send_gmail
-from .utils.mail.telegram import send_telegram
+from ntfyme.utils.local_notify.gen_notif import term_print
+from ntfyme.utils.local_notify.linux import notify_linux
+from ntfyme.utils.local_notify.macos import notify_macos
+from ntfyme.utils.local_notify.windows import notify_windows
+from ntfyme.utils.mail.gmail import send_gmail
+from ntfyme.utils.mail.telegram import send_telegram
 
 
 def notify_runner(notify_function, name, results, key):
