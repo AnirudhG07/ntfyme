@@ -8,6 +8,7 @@ This tool helps you ease your life with appropriate notifications you can set in
 
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Previews/Screenshots](#previewsscreenshots)
 - [Features](#features)
 - [Usages](#usages)
@@ -17,7 +18,13 @@ This tool helps you ease your life with appropriate notifications you can set in
   - [Pypi Installation](#pypi-installation)
   - [Homebrew Installation(for MacOS)](#homebrew-installationfor-macos)
   - [Manual Installation](#manual-installation)
+- [Getting Started](#getting-started)
 - [Configurations](#configurations)
+  - [1. [ntfyme]](#1-ntfyme)
+  - [2. [mail]](#2-mail)
+  - [3. [telegram]](#3-telegram)
+  - [4. [local]](#4-local)
+- [Contribute](#contribute)
 
 ## Previews/Screenshots
 
@@ -54,6 +61,28 @@ echo <command> | ntfyme
 ```
 
 Both the above commands will give the SAME output, a notification when the command is done.
+
+> For Windows, it is recommended to enclose you commands in double quotes. For example - `ntfyme -c "echo hi"`.
+
+### More examples
+
+1. To run multiple commands, you can use the `"multiple commands"` syntax to input to ntfyme. For example -
+
+```bash
+echo "echo hi; touch hello.txt; echo 'What a day!' > hello.txt" | ntfyme
+```
+
+The net output will be outputted for such commands with an overall diagnostics instead of seperate for each command.
+
+2. Running ssh will not work with ntfyme. Although one can use it to test the connection and then run the command. For example -
+
+```bash
+echo "nmap 1.1.1.1 -p 22" | ntfyme
+```
+
+This command may take some time to run, but will give you a notification when the command is done.
+
+3. If you would like to get notifications for an ssh command, you would need to install `ntfyme` on the remote machine, give your gmail id and app password in the `config.toml`.
 
 ## Installation
 
@@ -115,3 +144,7 @@ Here you can set your bot_token and chat_id which you can get by creating a bot 
 
 For local notification, the code will automatically detect your OS and based on that, will select `[local_{os}]` key. Currently only Sppecial configurations for MacOS is present. You will have to change `enabled` to `on/off` to `enable/disable` local notification.
 PLEASE DO NOT change other OS's configurations for no reason.
+
+## Contribute
+
+You are very welcome to contribute to this project. If you find bugs, or more API's for notifications, some more features, etc. feel free to create an issue, discuss and then make a PR. To make `ntfyme` better and used throughout the world, please star and share this repo to everyone!

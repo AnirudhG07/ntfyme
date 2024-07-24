@@ -31,8 +31,6 @@ def capture(cmd):
     
     process.wait()
 
-    process.wait()
-
     return {
         "output": "".join(output),
         "error": "".join(error),
