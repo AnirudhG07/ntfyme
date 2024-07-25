@@ -22,6 +22,8 @@ OPTIONS
         To see the log history of the command usage.
     --config
         To see and set the configurations for the tool.
+    --track-process, -t
+        To track and terminate your process if it gets suspended.
 
 
 FILES
@@ -40,11 +42,15 @@ EXAMPLES
 
         $ echo COMMAND | ntfyme
 
+    To run multiple commands, enclose the commands with quotes:
+
+        $ echo "CMD1; CMD2; CMD3" | ntfyme
+
     To encrypt your password:
     
         $ ntfyme --[e]nc PASSWORD
 
-    To setup the tool interactively:
+    To setup the tool configurations interactively:
 
         $ ntfyme --[i]nteractive-setup
 
@@ -52,9 +58,13 @@ EXAMPLES
     
         $ ntfyme --log
 
-    To see and set the configurations:
+    To open and edit the configurations:
     
         $ ntfyme --config
+
+    To track and terminate your process after prolong suspension:
+
+        $ ntfyme --[t]rack-process -[c]md COMMAND
         
 DEPENDENCIES
     ntfyme requires python version >= 3.11 and python libraries like tomlkit & toml for toml file utilities, smtplib for mailing, cryptography for encryption, plyer for local notification on windows. For Linux, inbuilt notify-send is used, and inbuilt osacript for MacOS for local notifications.
