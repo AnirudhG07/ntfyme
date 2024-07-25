@@ -1,4 +1,23 @@
-# ntfyme
+# ntfyme 📣 ![Static Badge](https://img.shields.io/badge/version-0.0.1-blue) 
+
+<p align="center">
+    <a><img src="https://img.shields.io/badge/MacOS-red"></a>
+    <a><img src="https://img.shields.io/badge/Linux-blue"></a>
+    <a><img src="https://img.shields.io/badge/Windows-green"></a>
+    <a><img src="https://img.shields.io/badge/WSL-yellow"></a>
+</p>
+<p align="center">
+    <a><img src="https://img.shields.io/badge/Gmail-cyan"></a> 
+    <a><img src="https://img.shields.io/badge/Telegram-pink"></a>
+</p>
+
+<p align="center">
+    <a href="#-previews">📷 Previews/Screenshots</a> •
+    <a href="#-features">⚡Features</a> •
+    <a href="#-usages">🔥Usages</a> •
+    <a href="#-installation">🔨Installation</a> •
+    <a href="#-getting-started">⭐Getting Started</a>
+</p>
 
 Have you ever wanted a simple tool in your terminal which gives you notification when the program is done, like some computer notification or some mail.
 This tool helps you ease your life with appropriate notifications you can set in your OS, get mail regarding it and best of all, it is VERY SIMPLE TO USE!
@@ -6,36 +25,37 @@ This tool helps you ease your life with appropriate notifications you can set in
 
 `ntfyme` stands for 'notify-me', obviously! So just write your command and pipe the notification of its Error(or Success) with ntfyme.
 
-## Table of Contents
+## 📷 Previews
+### Command line Usage
+https://github.com/user-attachments/assets/cc229f55-d5f2-4f19-8840-7a1b5a152058
 
-- [Table of Contents](#table-of-contents)
-- [Previews/Screenshots](#previewsscreenshots)
-- [Features](#features)
-- [Usages](#usages)
-  - [1. Direct Run](#1-direct-run)
-  - [2. Piping the command](#2-piping-the-command)
-- [Installation](#installation)
-  - [Pypi Installation](#pypi-installation)
-  - [Homebrew Installation(for MacOS)](#homebrew-installationfor-macos)
-  - [Manual Installation](#manual-installation)
-- [Getting Started](#getting-started)
-- [Configurations](#configurations)
-- [Contribute](#contribute)
+### Gmail
 
-## Previews/Screenshots
+You can get texts for smaller outputs and text files for bigger outputs upto the limit GMAIL allows.
 
-TBD
+<p align="center">
+  <img width="701" src="https://github.com/user-attachments/assets/b1fb9d6e-5a14-4e58-8c08-4473631880db" alt="ntfyme_gmail1">
+</p>
 
-## Features
+### Telegram bot messages
+After setting up your telegram bot, you can get similar outputs there too with NOTIFICATION.
 
-- Very easy to use and setup.
-- Cross platform support for Windows, MacOS and Linux.
-- Get local notifications when your command is done.
-- Get notifications like gmail, telegram bot, etc. when your command is done.
-- Get information about output, errors, time taken, pid and more in the notification.
-- Track your process for possible suspensions and get notified after thorough diagnostics.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e9cc3b45-d657-452c-b2ee-a86a8e3abedb" alt="Telegram bot preview">
+</p>
 
-## Usages
+and more ...
+
+## ⚡ Features 
+
+- ✨ Very easy to use and setup.
+- ✨ Cross platform support for Windows, MacOS and Linux.
+- ✨ Get local notifications when your command is done.
+- ✨ Get notifications like gmail, telegram bot, etc. when your command is done.
+- ✨ Get information about output, errors, time taken, pid and more in the notification.
+- ✨ Track your process for possible suspensions and get notified after thorough diagnostics.
+
+## 🔥 Usages 
 
 Say you want to run your terminal command called `<command>`, which can be running some python script, some shell scripts, or any terminal regular command.
 
@@ -58,7 +78,8 @@ echo <command> | ntfyme
 ```
 
 Both the above commands will give the SAME output, a notification when the command is done.
-
+> [!Note]
+> 
 > For Windows, it is recommended to enclose you commands in double quotes. For example - `ntfyme -c "echo hi"`.
 
 ### More examples
@@ -81,7 +102,7 @@ This command may take some time to run, but will give you a notification when th
 
 3. If you would like to get notifications for an ssh command, you would need to install `ntfyme` on the remote machine, give your gmail id and app password in the `config.toml`.
 
-## Installation
+## 🔨 Installation 
 
 You can install this tool with the below options available:
 
@@ -110,8 +131,11 @@ git clone https://github.com/AnirudhG07/ntfyme.git
 cd ntfyme
 pip install .
 ```
+> [!Important]
+>
+> WSL will be counted as windows instead of linux, thus notifications will be done through "plyer" library instead of linux notify-send.
 
-## Getting Started
+## ⭐ Getting Started
 
 To get started with `ntfyme`, first download the tool using the above installation methods. To enable notifications through gmail or telegram bot, you will need to setup the respective services manually. The guides to setup the services are mentioned in the docs.
 
