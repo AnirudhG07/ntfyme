@@ -114,6 +114,9 @@ You can download this tool by running the below command -
 pip install ntfyme
 ```
 
+> [!Tip]
+>
+> For Windows, you may get a mesage to add `C:\Users\your\path\to\Python31x\Scripts`(whatever you get) to path, refer this [guide](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho). Please add it to the path in order to run ntfyme.
 ### Homebrew Installation(for MacOS)
 
 This tool can downloaded from my Homebrew tap, by running the below command -
