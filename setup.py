@@ -1,17 +1,19 @@
 import gzip
 import os
 import shutil
+import sys
 
 from setuptools import find_packages, setup
 
 
 def install_man_page():
-    source_path = os.path.join("docs", "man", "ntfyme.1")
-    dest_path = os.path.join("/usr/local/", "share", "man", "man1", "ntfyme.1.gz")
+    if sys.platform != "win32":
+        source_path = os.path.join("docs", "man", "ntfyme.1")
+        dest_path = os.path.join("/usr/local/", "share", "man", "man1", "ntfyme.1.gz")
 
-    # Compress the man page
-    with open(source_path, "rb") as src, gzip.open(dest_path, "wb") as dst:
-        shutil.copyfileobj(src, dst)
+        # Compress the man page
+        with open(source_path, "rb") as src, gzip.open(dest_path, "wb") as dst:
+            shutil.copyfileobj(src, dst)
 
 
 description = """
@@ -86,3 +88,5 @@ setup(
         "Operating System :: Microsoft :: Windows",
     ],
 )
+if sys.platform != "win32":
+    install_man_page()
