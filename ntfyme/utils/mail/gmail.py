@@ -44,6 +44,8 @@ def send_gmail(results, key):
                             <html>
                             <body>
                             <p><b>Output:</b> {results["output"]}</p>
+                            <p><b>Return Code:</b> {results["return_code"]}</p>
+                            <p><b>Remarks:</b> {results["remarks"]}</p>
                             <p><b>Error:</b> {results["error"]}</p>
                             </body>
                             </html>

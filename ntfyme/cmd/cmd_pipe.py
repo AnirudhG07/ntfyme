@@ -2,8 +2,7 @@ import subprocess
 import sys
 import time
 
-from .live_capture import capture
-
+from .live_capture import *
 
 def seconds_to_time(seconds):
     """
@@ -37,10 +36,16 @@ def pipe_exec(terminal_print, track_process) -> dict:
             cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
         output, error = process.communicate()
-        results = {"output": output, "error": error, "pid": process.pid}
+        results = {
+            "output": output,
+            "error": error,
+            "pid": process.pid,
+            "return_code": process.returncode,
+        }
     output = results["output"]
     error = results["error"]
     pid = results["pid"]
+    return_code = results["return_code"]
 
     end_time = time.time()
     time_taken = end_time - start_time
@@ -51,5 +56,7 @@ def pipe_exec(terminal_print, track_process) -> dict:
         "command": "".join(cmd),
         "time_taken": time_taken,
         "pid": pid,
-        "error": error if error != "" else "none",
+        "error": error if return_code != 0 else "none",
+        "return_code": return_code,
+        "remarks": remarks(return_code),
     }

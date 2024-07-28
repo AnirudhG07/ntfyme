@@ -6,6 +6,21 @@ import time
 
 import toml
 
+def remarks(return_code:int)->str:
+    """
+    Gives remarks based on the return code
+    """
+    return_code_remarks = {
+    0: "Success. The command executed successfully without any errors.",
+    1: "General error. The command failed due to a general error.",
+    2: "Misuse of shell built-ins (according to Bash documentation).",
+    126: "Command invoked cannot execute. This might happen if the command is not executable.",
+    127: "Command not found. This indicates that the command was not found in the system's PATH.",
+    128: "Invalid argument to exit. This indicates that the exit status is out of the range of valid exit statuses.",
+    130: "Script terminated by Control-C. This indicates that the script was terminated by the user pressing Control-C.",
+    137: "Command terminated by signal 9 (SIGKILL)."
+    }
+    return return_code_remarks.get(return_code, "Unknown return code")
 
 class ProcessMonitor:
     def __init__(self, timeout, iterations):
@@ -123,4 +138,5 @@ def capture(cmd, track_process):
         "output": "".join(output),
         "error": error_message,
         "pid": process.pid,
+        "return_code": process.returncode,
     }
