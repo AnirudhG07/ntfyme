@@ -26,8 +26,13 @@ This tool helps you ease your life with appropriate notifications you can set in
 `ntfyme` stands for 'notify-me', obviously! So just write your command and pipe the notification of its Error(or Success) with ntfyme.
 
 ## 📷 Previews
+
 ### Command line Usage
-https://github.com/user-attachments/assets/cc229f55-d5f2-4f19-8840-7a1b5a152058
+
+https://github.com/user-attachments/assets/3cb70cc2-3f2b-49f9-bb0b-5223a225bad9
+
+<br>
+You can run any command, from regular command line to computational biology commands to any other!
 
 ### Gmail
 
