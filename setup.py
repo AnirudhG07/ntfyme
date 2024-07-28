@@ -5,17 +5,6 @@ import sys
 
 from setuptools import find_packages, setup
 
-
-def install_man_page():
-    if sys.platform != "win32":
-        source_path = os.path.join("docs", "man", "ntfyme.1")
-        dest_path = os.path.join("/usr/local/", "share", "man", "man1", "ntfyme.1.gz")
-
-        # Compress the man page
-        with open(source_path, "rb") as src, gzip.open(dest_path, "wb") as dst:
-            shutil.copyfileobj(src, dst)
-
-
 description = """
 Have you ever wanted a simple tool in your terminal which gives you notification when the program is done, like some computer notification or some mail.
 This tool helps you ease your life with appropriate notifications you can set in your OS, get mail regarding it and best of all, it is VERY SIMPLE TO USE!
@@ -88,5 +77,3 @@ setup(
         "Operating System :: Microsoft :: Windows",
     ],
 )
-if sys.platform != "win32":
-    install_man_page()
