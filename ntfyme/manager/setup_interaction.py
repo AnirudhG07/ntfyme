@@ -110,7 +110,7 @@ def gmail_setup():
     )
     print("Note: This will be stored with encryption for security purposes.")
     mail_id = valid_gmail_email()
-    password = input("\033[93m" + "Enter your gmail password: " + "\033[0m")
+    password = input("\033[93m" + "Enter your gmail app password: " + "\033[0m")
     key = input("\033[93m" + "Enter your ntfyme_key: " + "\033[0m")
     enabled = input(
         "\033[93m"
