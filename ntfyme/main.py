@@ -108,12 +108,13 @@ def main():
 
     results, key = None, None
     log_info = {}
+
+    log_info["key"]=0
     if config["mail"]["enabled"] == "on":
         key = input("Enter your ntfyme_key: ")
         if not key:
             log_info["key"] = "1"
-    else:
-        log_info["key"] = "0"
+
 
     if args.track_process:
         track_process = "on"
@@ -128,7 +129,7 @@ def main():
             log_info["execution"] = ": Direct :: 0"
         else:
             results = pipe_exec(terminal_print, track_process)
-            log_info["execution"] = ": pipe :: 0"
+            log_info["execution"] = ": Pipe :: 0"
 
     except Exception as e:
         print(f"Error occurred in command execution. Error: {e}")

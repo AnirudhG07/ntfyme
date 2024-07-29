@@ -20,7 +20,7 @@ def send_telegram(results):
     pid = results["pid"]
 
     message = f"*PID:* {pid}\n*Command run:* {results['command']}\n*Time taken:* {results['time_taken']} seconds\n"
-    message_telegram = f"*Output*:\n{results['output']}\n*Return Code*:\n{results["return_code"]}\n*Remarks*:\n{results["remarks"]}\n*Error:* {error}"
+    message_telegram = f"*Output*:\n{results['output']}\n*Return Code*:\n{results['return_code']}\n*Remarks*:\n{results['remarks']}\n*Error:* {error}"
 
     filename = f"output{pid}.txt"
     if len(results["output"]) > 1000:
