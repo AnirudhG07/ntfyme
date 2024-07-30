@@ -1,4 +1,4 @@
-# ntfyme 📣 ![Static Badge](https://img.shields.io/badge/version-0.0.1-blue) 
+# ntfyme 📣 ![Static Badge](https://img.shields.io/badge/version-0.0.1-blue)
 
 <p align="center">
     <a><img src="https://img.shields.io/badge/MacOS-red"></a>
@@ -43,6 +43,7 @@ You can get texts for smaller outputs and text files for bigger outputs upto the
 </p>
 
 ### Telegram bot messages
+
 After setting up your telegram bot, you can get similar outputs there too with NOTIFICATION.
 
 <p align="center">
@@ -51,7 +52,7 @@ After setting up your telegram bot, you can get similar outputs there too with N
 
 and more ...
 
-## ⚡ Features 
+## ⚡ Features
 
 - ✨ Very easy to use and setup.
 - ✨ Cross platform support for Windows, MacOS and Linux.
@@ -60,7 +61,7 @@ and more ...
 - ✨ Get information about output, errors, time taken, pid and more in the notification.
 - ✨ Track your process for possible suspensions and get notified after thorough diagnostics.
 
-## 🔥 Usages 
+## 🔥 Usages
 
 Say you want to run your terminal command called `<command>`, which can be running some python script, some shell scripts, or any terminal regular command.
 
@@ -83,8 +84,9 @@ echo <command> | ntfyme
 ```
 
 Both the above commands will give the SAME output, a notification when the command is done.
+
 > [!Note]
-> 
+>
 > For Windows, it is recommended to enclose you commands in double quotes. For example - `ntfyme -c "echo hi"`.
 
 ### More examples
@@ -107,7 +109,7 @@ This command may take some time to run, but will give you a notification when th
 
 3. If you would like to get notifications for an ssh command, you would need to install `ntfyme` on the remote machine, give your gmail id and app password in the `config.toml`.
 
-## 🔨 Installation 
+## 🔨 Installation
 
 You can install this tool with the below options available:
 
@@ -122,6 +124,7 @@ pip install ntfyme
 > [!Tip]
 >
 > For Windows, you may get a mesage to add `C:\Users\your\path\to\Python31x\Scripts`(whatever you get) to path, refer this [guide](https://stackoverflow.com/questions/44272416/how-to-add-a-folder-to-path-environment-variable-in-windows-10-with-screensho). Please add it to the path in order to run ntfyme.
+
 ### Homebrew Installation(for MacOS)
 
 This tool can downloaded from my Homebrew tap, by running the below command -
@@ -139,9 +142,15 @@ git clone https://github.com/AnirudhG07/ntfyme.git
 cd ntfyme
 pip install .
 ```
+
 > [!Important]
 >
-> WSL will be counted as windows instead of linux, thus notifications will be done through "plyer" library instead of linux notify-send.
+> WSL will be counted as windows instead of linux, thus notifications will be done through "plyer" library instead of linux notify-send. To complete the installation process for WSL, please run [wsl.sh](https://github.com/AnirudhG07/ntfyme/blob/main/docs/setup_guide/wsl.sh) script in your WSL terminal with sudo permissions. You can do this by running -
+
+```bash
+chmod +x wsl.sh
+sudo ./wsl.sh
+```
 
 ## ⭐ Getting Started
 
