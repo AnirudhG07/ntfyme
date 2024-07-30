@@ -16,6 +16,7 @@ This tool helps you ease your life with appropriate notifications you can set in
 - Get local notifications when your command is done.
 - Get notifications like gmail, telegram bot, etc. when your command is done.
 - Get information about output, errors, time taken, pid and more in the notification.
+- Track your process for possible suspensions and get notified after thorough diagnostics.
 
 ## Usages
 There are mainly two ways to use the tool to get a notification -
