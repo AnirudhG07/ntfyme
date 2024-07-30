@@ -43,6 +43,7 @@ def pipe_exec(terminal_print, track_process) -> dict:
             "return_code": process.returncode,
         }
     output = results["output"]
+
     error = results["error"]
     pid = results["pid"]
     return_code = results["return_code"]

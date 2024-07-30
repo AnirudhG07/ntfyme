@@ -109,7 +109,7 @@ def capture(cmd, track_process):
         args=(
             process.stderr,
             error,
-            lambda x, **kwargs: print(x, file=sys.stderr, **kwargs),
+            lambda x, **kwargs: None,  # Do nothing instead of printing
             monitor,
         ),
     )
@@ -133,6 +133,7 @@ def capture(cmd, track_process):
     error_message = "".join(error)
     if enabled and monitor.stalled_count >= iterations:
         error_message += "Error: Process output is stalled."
+
 
     return {
         "output": "".join(output),
