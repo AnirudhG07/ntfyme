@@ -14,7 +14,7 @@ from ntfyme.utils.log.log import log_add
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
-@click.version_option("ntfyme v0.0.1", "--version", "-v")
+@click.version_option("ntfyme v0.0.2", "--version", "-v")
 def main():
     """
     ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.\n

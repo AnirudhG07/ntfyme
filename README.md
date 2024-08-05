@@ -1,4 +1,4 @@
-# ntfyme 📣 ![Static Badge](https://img.shields.io/badge/version-0.0.1-blue)
+# ntfyme 📣 ![Static Badge](https://img.shields.io/badge/version-0.0.2-blue)
 
 <p align="center">
     <a><img src="https://img.shields.io/badge/MacOS-red"></a>

@@ -38,7 +38,7 @@ For more information, visit the official github repository https://github.com/An
 
 setup(
     name="ntfyme",
-    version="0.0.1",
+    version="0.0.2",
     description="Simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.",
     long_description=description,
     long_description_content_type="text/markdown",
