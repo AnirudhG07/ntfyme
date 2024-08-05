@@ -17,18 +17,15 @@ from ntfyme.utils.log.log import log_add
 @click.version_option("ntfyme v0.0.1", "--version", "-v")
 def main():
     """
-    ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.
-    For more information on each of commands, you can run - ntfyme OPTION --help or -h.
+    ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.\n
+    For more information on each of commands, you can run - `ntfyme COMMAND --help` or -h, like `ntfyme exec -h`.\n
     For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.
     """
     pass
 
 
-@main.command()
+@main.command(short_help="Run main commands and options for ntfyme.")
 @click.option("--cmd", "-c", help="Run the command through direct execution")
-@click.option(
-    "--enc", "-e", is_flag=True, help="Encrypt password with your key for safety"
-)
 @click.option(
     "--track-process",
     "-t",
@@ -37,8 +34,8 @@ def main():
 )
 def exec(cmd, enc, track_process):
     """
-    Run main commands and options for ntfyme.
-    To directly run a command, use - ntfyme exec -c "your_command"
+    Run main commands and options for ntfyme.\n
+    To directly run a command, use - ntfyme exec -c "your_command".\n
     To pipe your command & run, use -  echo "your_command" | ntfyme exec
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,16 +44,6 @@ def exec(cmd, enc, track_process):
         config = toml.load(file)
 
     terminal_print = config["ntfyme"]["terminal_print"]
-
-    if enc:
-        click.echo(
-            "Please provide your ntfyme_key for encrypting your password. This key is the same throughout ntfyme. Whatever output you get will be based on the same key, please be mindful of the usage."
-        )
-        key = click.prompt("Enter your ntfyme_key")
-        password = click.prompt("Enter your password", hide_input=True)
-        encrypted_password = encrypt(password, key)
-        click.echo(f"Encrypted password: {encrypted_password}")
-        return
 
     results, key = None, None
     log_info = {"key": 0}
@@ -99,7 +86,7 @@ def exec(cmd, enc, track_process):
     log_add(results, log_info)
 
 
-@main.command()
+@main.command(short_help="The command log of ntfyme.")
 @click.option(
     "--recent",
     "-r",
@@ -126,9 +113,11 @@ def log(recent):
         print(f"Error occurred in opening log file. Error: {e}")
 
 
-@main.command()
+@main.command(short_help="The configuration file of ntfyme.")
 def config():
-    """The configuration file of ntfyme. You will be prompted to provide password to access it for safety."""
+    """The configuration file of ntfyme. You will be prompted to provide password to access it for safety.\n
+    For Windows, please run this command as Admin else you will not be able to make changes.
+    """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
     editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
@@ -145,6 +134,19 @@ def config():
             subprocess.run([editor, config_path])
         else:
             print("Please run this command as admin. Thank you!")
+    return 0
+
+
+@main.command(short_help="Encrypt your app password inside config file for security.")
+def enc():
+    """Encrypt your gmail app password inside config file for security.\n Give your ntfyme_key as input and paste the input in the config.toml file in gmail app password field as "<enc_pass>"."""
+    click.echo(
+        "Please provide your ntfyme_key for encrypting your password. This key is the same throughout ntfyme. Whatever output you get will be based on the same key, please be mindful of the usage."
+    )
+    key = click.prompt("Enter your ntfyme_key")
+    password = click.prompt("Enter your password", hide_input=True)
+    encrypted_password = encrypt(password, key)
+    click.echo(f"Encrypted password: {encrypted_password}")
     return 0
 
 

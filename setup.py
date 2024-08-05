@@ -1,8 +1,3 @@
-import gzip
-import os
-import shutil
-import sys
-
 from setuptools import find_packages, setup
 
 description = """
@@ -17,6 +12,7 @@ This tool helps you ease your life with appropriate notifications you can set in
 - Get notifications like gmail, telegram bot, etc. when your command is done.
 - Get information about output, errors, time taken, pid and more in the notification.
 - Track your process for possible suspensions and get notified after thorough diagnostics.
+- Enhanced UI features powered by rich and beaupy.
 
 ## Usages
 There are mainly two ways to use the tool to get a notification -
@@ -26,7 +22,7 @@ There are mainly two ways to use the tool to get a notification -
 For "direct running", you can follow the below format -
 
 ```bash
-ntfyme -c <command>
+ntfyme exec -c <command>
 ```
 
 ### 2. Piping the command
@@ -34,7 +30,7 @@ ntfyme -c <command>
 For "piping the command", you can follow the below format -
 
 ```bash
-echo <command> | ntfyme
+echo <command> | ntfyme exec
 ```
 
 For more information, visit the official github repository https://github.com/AnirudhG07/ntfyme
@@ -58,6 +54,9 @@ setup(
         "tomlkit",
         "cryptography",
         "requests",
+        "rich",
+        "rich-click",
+        "beaupy",
     ],
     keywords=["notification", "notify", "cli", "python"],
     python_requires=">=3.10",

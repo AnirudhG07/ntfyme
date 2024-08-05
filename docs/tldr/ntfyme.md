@@ -1,37 +1,37 @@
 # ntfyme
 
-> A python based tool to track and notify your long running process on termination.
+> A notification tool to track and notify you about your long running process on termination.
 > Send notification with Gmail, Telegram and more with success/error messages.
 > More information: <https://github.com/AnirudhG07/ntfyme>.
 
 - Directly run your command:
 
-`ntfyme {{-c|--cmd}} {{COMMAND}}`
+`ntfyme exec {{-c|--cmd}} {{COMMAND}}`
 
 - Pipe your command and run:
 
-`echo {{COMMAND}} | ntfyme`
+`echo {{COMMAND}} | ntfyme exec`
 
 - Run multiple commands by enclosing them in quotes:
 
-`echo "{{COMMAND1; COMMAND2; COMMAND3}}" | ntfyme`
+`echo "{{COMMAND1; COMMAND2; COMMAND3}}" | ntfyme exec`
 
 - Track and terminate your process after prolong suspension:
 
-`ntfyme {{-t|--track-process}} {{-c|--cmd}} {{COMMAND}}`
+`ntfyme exec {{-t|--track-process}} {{-c|--cmd}} {{COMMAND}}`
 
 - Setup the tool configurations interactively:
 
-`ntfyme {{-i|--interactive-setup}}`
+`ntfyme setup`
 
 - Encrypt your password:
 
-`ntfyme {{-e|--enc}} {{PASSWORD}}`
+`ntfyme enc`
 
 - See the log history:
 
-`ntfyme {{--log}}`
+`ntfyme log`
 
 - Open and edit the configuration file:
 
-`ntfyme {{--config}}`
+`ntfyme config`
