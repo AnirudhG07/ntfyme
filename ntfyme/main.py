@@ -32,7 +32,7 @@ def main():
     is_flag=True,
     help="Track the process for suspensions and terminate if stalled for a long time",
 )
-def exec(cmd, enc, track_process):
+def exec(cmd, track_process):
     """
     Run main commands and options for ntfyme.\n
     To directly run a command, use - ntfyme exec -c "your_command".\n
