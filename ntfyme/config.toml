@@ -4,6 +4,7 @@ terminal_print = "on" # (on/off) printing the output, errors, etc. in the termin
 log_pager = "cat" # (cat/less/more/bat, etc) the pager for the log file. Make sure these are supported in your system.
 success_subject = "Process Terminated: Success" # Subject message for a successful message.
 error_subject = "Process Terminated: Error" # Subject message for an error message.
+richer = "on" # print terminal output in a richer and more beautiful way.
 
 [suspend]
 # Terminating processed with no output for a while(suspended) and sending such notification.

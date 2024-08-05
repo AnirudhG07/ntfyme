@@ -12,19 +12,23 @@ DESCRIPTION
 OPTIONS
     -h, --help
         To see the help message.
-    --cmd, -c
-        To directly run the command.
-    --enc, -e
-        To encrypt your password with your ntfyme_key.
-    --interactive-setup, -i
+    exec
+        To execute process commands to run.
+        --cmd, -c
+            To directly run the command.
+        --track-process, -t
+            To track and terminate your process if it gets suspended.
+    setup
         To setup the tool interactively.
-    --log
+    log
         To see the log history of the command usage.
-    --config
+        --recent, -r
+            To see the log of most recent command run.
+    config
         To see and set the configurations for the tool.
-    --track-process, -t
-        To track and terminate your process if it gets suspended.
 
+    enc
+        To encrypt your password with your ntfyme_key.
 
 FILES
     ntfyme stores and uses configurations from config.toml file which you can access only using root privilages. It contains information regarding your email, telegram bot, personalised messages, etc. 
@@ -36,39 +40,43 @@ NOTES
 EXAMPLES
     To directly run your command:
 
-        $ ntfyme --[c]md COMMAND
+        $ ntfyme exec --[c]md COMMAND
 
     To pipe the command and run:
 
-        $ echo COMMAND | ntfyme
+        $ echo COMMAND | ntfyme exec
 
     To run multiple commands, enclose the commands with quotes:
 
-        $ echo "CMD1; CMD2; CMD3" | ntfyme
-
-    To encrypt your password:
-    
-        $ ntfyme --[e]nc PASSWORD
-
-    To setup the tool configurations interactively:
-
-        $ ntfyme --[i]nteractive-setup
-
-    To see the log history:
-    
-        $ ntfyme --log
-
-    To open and edit the configurations:
-    
-        $ ntfyme --config
+        $ echo "CMD1; CMD2; CMD3" | ntfyme exec
 
     To track and terminate your process after prolong suspension:
 
-        $ ntfyme --[t]rack-process -[c]md COMMAND
-        
+        $ ntfyme exec --[t]rack-process -[c]md COMMAND
+
+    To encrypt your password:
+    
+        $ ntfyme enc
+
+    To setup the tool configurations interactively:
+
+        $ ntfyme setup 
+
+    To see the log history:
+    
+        $ ntfyme log
+
+    To see the log of the latest command run:
+
+        $ ntfyme log --[r]ecent
+
+    To open and edit the configurations:
+    
+        $ ntfyme config
+
 DEPENDENCIES
-    ntfyme requires python version >= 3.11 and python libraries like tomlkit & toml for toml file utilities, smtplib for mailing, cryptography for encryption, plyer for local notification on windows. For Linux, inbuilt notify-send is used, and inbuilt osacript for MacOS for local notifications.
+    ntfyme requires python version >= 3.11 and python libraries like tomlkit & toml for toml file utilities, smtplib for mailing, cryptography for encryption, plyer for local notification on windows and rich, rich-click, beaupy for enhanced UI features. For Linux, inbuilt notify-send is used, and inbuilt osacript for MacOS for local notifications.
 
 AUTHOR
-    ntfyme was written by Anirudh Gupta, Vishnu Teja.
+    ntfyme was written by Anirudh Gupta.
  

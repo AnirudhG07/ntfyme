@@ -60,6 +60,7 @@ and more ...
 - ✨ Get notifications like gmail, telegram bot, etc. when your command is done.
 - ✨ Get information about output, errors, time taken, pid and more in the notification.
 - ✨ Track your process for possible suspensions and get notified after thorough diagnostics.
+- ✨ Enhanced UI features powered by rich and beaupy.
 
 ## 🔥 Usages
 
@@ -72,7 +73,7 @@ There are mainly two ways to use the tool to get a notification -
 For "direct running", you can follow the below format -
 
 ```bash
-ntfyme -c <command>
+ntfyme exec -c <command>
 ```
 
 ### 2. Piping the command
@@ -80,21 +81,21 @@ ntfyme -c <command>
 For "piping the command", you can follow the below format -
 
 ```bash
-echo <command> | ntfyme
+echo <command> | ntfyme exec
 ```
 
 Both the above commands will give the SAME output, a notification when the command is done.
 
 > [!Note]
 >
-> For Windows, it is recommended to enclose you commands in double quotes. For example - `ntfyme -c "echo hi"`.
+> For Windows, it is recommended to enclose you commands in double quotes. For example - `ntfyme exec -c "echo hi"`.
 
 ### More examples
 
 1. To run multiple commands, you can use the `"multiple commands"` syntax to input to ntfyme. For example -
 
 ```bash
-echo "echo hi; touch hello.txt; echo 'What a day!' > hello.txt" | ntfyme
+echo "echo hi; touch hello.txt; echo 'What a day!' > hello.txt" | ntfyme exec
 ```
 
 The net output will be outputted for such commands with an overall diagnostics instead of seperate for each command.
@@ -102,7 +103,7 @@ The net output will be outputted for such commands with an overall diagnostics i
 2. Running ssh will not work with ntfyme. Although one can use it to test the connection and then run the command. For example -
 
 ```bash
-echo "nmap 1.1.1.1 -p 22" | ntfyme
+echo "nmap 1.1.1.1 -p 22" | ntfyme exec
 ```
 
 This command may take some time to run, but will give you a notification when the command is done.
