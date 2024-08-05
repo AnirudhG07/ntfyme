@@ -2,6 +2,7 @@ import datetime
 import os
 import platform
 
+
 def log_print(log_dict):
     """
     The log file prints prints the formatted log file.
@@ -21,14 +22,14 @@ def log_print(log_dict):
     log_dir = os.path.dirname(__file__)
     log_file = os.path.join(log_dir, "ntfyme.log")
 
-    with open(log_file, "a") as lg:  # Note: Changed mode to "a" for appending
+    with open(log_file, "a") as lg:
         status = "Successful" if return_code == 0 else "Error"
         lg.write(f"{log_time} :: PID: {pid} :: Status: {status}\n")
         lg.write(
             f"Command run: {command}\nTime taken: {time_taken} seconds :: OS: {system}\n"
         )
         lg.write(
-            f"Key: {log_dict['key']} :: Execution{log_dict['execution']} :: Notify: {log_dict['notify']} :: Track-Process: {track_process}\n"
+            f"Key: {log_dict['key']} :: Execution : {log_dict['execution']} :: Notify: {log_dict['notify']} :: Track-Process: {track_process}\n"
         )
         lg.write(f"Return Code: {str(return_code)} :: Remarks: {remarks}\n")
         lg.write("\n")

@@ -8,16 +8,17 @@ import toml
 from ntfyme.cmd.cmd_direct import direct_exec
 from ntfyme.cmd.cmd_pipe import pipe_exec
 from ntfyme.manager.encrypt import encrypt
-from ntfyme.manager.setup_interaction import setup
+from ntfyme.manager.setup_interaction import setup as notification_setup
 from ntfyme.notification import notify
 from ntfyme.utils.log.log import log_add
 
 
-@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option("ntfyme v0.0.1", "--version", "-v")
 def main():
     """
     ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.
+    For more information on each of commands, you can run - ntfyme OPTION --help or -h.
     For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.
     """
     pass
@@ -29,20 +30,16 @@ def main():
     "--enc", "-e", is_flag=True, help="Encrypt password with your key for safety"
 )
 @click.option(
-    "--interactive-setup",
-    "-i",
-    is_flag=True,
-    help="Interactively setup your notification configuration",
-)
-@click.option(
     "--track-process",
     "-t",
     is_flag=True,
     help="Track the process for suspensions and terminate if stalled for a long time",
 )
-def run(cmd, enc, interactive_setup, track_process):
+def exec(cmd, enc, track_process):
     """
-    Run various commands and options for ntfyme.
+    Run main commands and options for ntfyme.
+    To directly run a command, use - ntfyme exec -c "your_command"
+    To pipe your command & run, use -  echo "your_command" | ntfyme exec
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
@@ -61,10 +58,6 @@ def run(cmd, enc, interactive_setup, track_process):
         click.echo(f"Encrypted password: {encrypted_password}")
         return
 
-    if interactive_setup:
-        setup()
-        return
-
     results, key = None, None
     log_info = {"key": 0}
 
@@ -80,17 +73,21 @@ def run(cmd, enc, interactive_setup, track_process):
         track_process = "off"
         log_info["track_process"] = 1
 
-    try:
-        if cmd:
+    if cmd:
+        try:
             results = direct_exec(cmd, terminal_print, track_process)
             log_info["execution"] = "Direct :: 0"
-        else:
+        except Exception as e:
+            click.echo(f"Error occurred in direct execution. Error: {e}")
+            log_info["execution"] = "Direct :: 1"
+    else:
+        try:
             results = pipe_exec(terminal_print, track_process)
             log_info["execution"] = "Pipe :: 0"
 
-    except Exception as e:
-        click.echo(f"Error occurred in command execution. Error: {e}")
-        log_info["error"] = "Execution: 1"
+        except Exception as e:
+            click.echo(f"Error occurred in piped execution. Error: {e}")
+            log_info["error"] = "Pipe: 1"
 
     try:
         notify(results, key)
@@ -103,8 +100,14 @@ def run(cmd, enc, interactive_setup, track_process):
 
 
 @main.command()
-def log():
-    """The command log of ntfyme"""
+@click.option(
+    "--recent",
+    "-r",
+    is_flag=True,
+    help="Display the log entry for the latest command run.",
+)
+def log(recent):
+    """The command log of ntfyme. For any debugging, it is advised to check the log along with any Errors printed."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
     config_path = os.path.join(script_dir, "config.toml")
@@ -112,16 +115,20 @@ def log():
         config = toml.load(file)
 
     log_pager = config["ntfyme"]["log_pager"]
+    log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
 
     try:
-        subprocess.run([log_pager, log_path])
+        if recent:
+            subprocess.run(["tail", "-n", "7", log_path])  # Display the last 10 lines
+        else:
+            subprocess.run([log_pager, log_path])
     except Exception as e:
-        click.echo(f"Error occurred in opening log file. Error: {e}")
+        print(f"Error occurred in opening log file. Error: {e}")
 
 
 @main.command()
 def config():
-    """The configuration file of ntfyme"""
+    """The configuration file of ntfyme. You will be prompted to provide password to access it for safety."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
     editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
@@ -132,7 +139,20 @@ def config():
         )
         subprocess.run(["sudo", editor, config_path])
     else:
-        subprocess.run([editor, config_path])
+        import ctypes
+
+        if ctypes.windll.shell32.IsUserAnAdmin() != 0:
+            subprocess.run([editor, config_path])
+        else:
+            print("Please run this command as admin. Thank you!")
+    return 0
+
+
+@main.command()
+def setup():
+    """Interactively setup Gmail, Telegram, etc. for ntfyme."""
+    notification_setup()
+    return 0
 
 
 if __name__ == "__main__":
