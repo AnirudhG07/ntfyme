@@ -1,21 +1,16 @@
 import importlib.util
 import os
 import re
+import time
 
 import requests
 import tomlkit
+from beaupy import select
+from beaupy.spinners import *
+from rich.console import Console
 
+console = Console()
 config_path = os.path.join(os.path.dirname(__file__), "..", "config.toml")
-
-
-def loop_on_off(choice):
-    """
-    Loop to check if the input is on or off.
-    """
-    while choice.lower() not in ["on", "off"]:
-        print("\033[91m" + "Invalid choice. Please enter a valid choice." + "\033[0m")
-        choice = input("\033[93m" + "Enter your choice: " + "\033[0m")
-    return choice
 
 
 def valid_telegram_chat_id():
@@ -34,6 +29,12 @@ def valid_telegram_token():
         response = requests.get(
             f"https://api.telegram.org/bot{token}/getMe", timeout=10
         )
+        spinner = Spinner(DOTS, "Verifying bot token...")
+        spinner.start()
+
+        time.sleep(4)
+
+        spinner.stop()
         if response.status_code == 200 and response.json().get("ok"):
             return token
         if response.status_code >= 400:
@@ -68,18 +69,16 @@ def telegram_setup():
     print(
         "\n\033[92m"
         + "Welcome to the telegram setup. Before starting this setup, please make sure to have read the guidelines on setting up the telegram bot for ntfyme at: https://github.com/AnirudhG07/ntfyme/blob/main/docs/setup_guide/telegram_bot.md. You will be required to enter your telegram chat_id and token."
-        + "\033[0m"
+        + "\033[0m\nNote: This will not be stored with encryption. "
     )
-    print("Note: This will not be stored with encryption. ")
+
     chat_id = valid_telegram_chat_id()
     token = valid_telegram_token()
 
-    enabled = input(
-        "\033[93m"
-        + "Do you want to enable telegram notifications? (on/off): "
-        + "\033[0m"
-    )
-    enabled = loop_on_off(enabled)
+    print("\033[93m" + "Do you want to enable telegram notifications?" + "\033[0m")
+
+    choice = select(["on", "off"], cursor=">", cursor_style="cyan")
+    enabled = choice
 
     with open(config_path, "r") as file:
         tele_toml = tomlkit.parse(file.read())
@@ -94,6 +93,12 @@ def telegram_setup():
     with open(config_path, "w") as file:
         file.write(tomlkit.dumps(tele_toml))
 
+    spinner = Spinner(DOTS, "Setting up...")
+    spinner.start()
+
+    time.sleep(1)
+
+    spinner.stop()
     print("Telegram setup complete.")
     return 0
 
@@ -112,12 +117,15 @@ def gmail_setup():
     mail_id = valid_gmail_email()
     password = input("\033[93m" + "Enter your gmail app password: " + "\033[0m")
     key = input("\033[93m" + "Enter your ntfyme_key: " + "\033[0m")
-    enabled = input(
+
+    print(
         "\033[93m"
         + "Do you want to enable gmail notification? Enabling this will ask for your ntfyme_key everytime you run ntfyme. (on/off): "
         + "\033[0m"
     )
-    enabled = loop_on_off(enabled)
+
+    choice = select(["on", "off"], cursor=">", cursor_style="cyan")
+    enabled = choice
 
     encrypt_path = os.path.join(os.path.dirname(__file__), "encrypt.py")
     spec = importlib.util.spec_from_file_location("encrypt", encrypt_path)
@@ -138,6 +146,12 @@ def gmail_setup():
     with open(config_path, "w") as file:
         file.write(tomlkit.dumps(gmail_toml))
 
+    spinner = Spinner(DOTS, "Setting up...")
+    spinner.start()
+
+    time.sleep(1)
+
+    spinner.stop()
     print("Gmail setup complete.")
     return 0
 
@@ -155,18 +169,18 @@ def setup():
         + "\033[0m\n",
     )
     # color option purple and bold and text yello
-    print("\033[91m" + "[1]" + "\033[0m" + "\033[94m" + " Gmail setup" + "\033[0m")
-    print("\033[91m" + "[2]" + "\033[0m" + "\033[94m" + " Telegram setup" + "\033[0m")
-    print("\033[91m" + "[3]" + "\033[0m" + "\033[94m" + " Exit" + "\033[0m")
+    options = [
+        "\033[91m" + "[1]" + "\033[0m" + "\033[94m" + " Gmail setup" + "\033[0m",
+        "\033[91m" + "[2]" + "\033[0m" + "\033[94m" + " Telegram setup" + "\033[0m",
+        "\033[91m" + "[3]" + "\033[0m" + "\033[94m" + " Exit" + "\033[0m",
+    ]
 
-    choice = input("\033[93m" + "\nEnter your choice: " + "\033[0m")
-    while choice not in ["1", "2", "3"]:
-        print("Invalid choice. Please enter a valid choice.")
-        choice = input("Enter your choice: ")
+    choice = select(options, cursor=">", cursor_style="cyan")
 
-    if choice == "1":
+    if choice == options[0]:
         gmail_setup()
-    elif choice == "2":
+    elif choice == options[1]:
         telegram_setup()
-    elif choice == "3":
+    else:
+        print("Thanks for using ntfyme!")
         return 0

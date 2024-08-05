@@ -1,8 +1,8 @@
 import os
 import platform
 import subprocess
-from argparse import ArgumentParser, RawTextHelpFormatter
 
+import rich_click as click
 import toml
 
 from ntfyme.cmd.cmd_direct import direct_exec
@@ -13,137 +13,126 @@ from ntfyme.notification import notify
 from ntfyme.utils.log.log import log_add
 
 
+@click.group(context_settings=dict(help_option_names=["-h", "--help"]))
+@click.version_option("ntfyme v0.0.1", "--version", "-v")
 def main():
     """
-    -> Handles the flags and errors
-    -> calls functions based on the flags
-
-    Arguments:
-        None: Assumes the user wants to run the main command through pipe
-        --cmd or -c : Input the command to cli as 'ntfyme --cmd <command>'
-        --enc or -e : Encrypt password with your key for safety
-        --log : The command log of ntfyme
-        --config: The configuration file of ntfyme
-
-        --help or -h : Shows the help message
-        --version or -v : Shows the version of the program
+    ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc.
+    For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.
     """
+    pass
 
-    parser = ArgumentParser(description="ntfyme")
-    parser = ArgumentParser(
-        description="""ntfyme is a simple notification tool to notify yourself when a long running process ends with local ping, gmail, telegram, etc. For setup guidelines or if you are facing any issue, checkout the official github repository at: https://github.com/AnirudhG07/ntfyme.""",
-        formatter_class=RawTextHelpFormatter,
-    )
-    parser.add_argument("--version", "-v", action="version", version="ntfyme v0.0.1")
-    parser.add_argument("--cmd", "-c", help="Run the command through direct execution")
-    parser.add_argument(
-        "--log", "-l", action="store_true", help="The command log of ntfyme"
-    )
-    parser.add_argument(
-        "--config", action="store_true", help="The configuration file of ntfyme"
-    )
-    parser.add_argument(
-        "--enc",
-        "-e",
-        action="store_true",
-        help="Encrypting password through ntfyme_key",
-    )
-    parser.add_argument(
-        "--interactive-setup",
-        "-i",
-        action="store_true",
-        help="Interactively setup your notification configuration",
-    )
-    parser.add_argument(
-        "--track-process",
-        "-t",
-        action="store_true",
-        help="Track the process for suspensions and terminate if stalled for a long time",
-    )
 
-    args = parser.parse_args()
+@main.command()
+@click.option("--cmd", "-c", help="Run the command through direct execution")
+@click.option(
+    "--enc", "-e", is_flag=True, help="Encrypt password with your key for safety"
+)
+@click.option(
+    "--interactive-setup",
+    "-i",
+    is_flag=True,
+    help="Interactively setup your notification configuration",
+)
+@click.option(
+    "--track-process",
+    "-t",
+    is_flag=True,
+    help="Track the process for suspensions and terminate if stalled for a long time",
+)
+def run(cmd, enc, interactive_setup, track_process):
+    """
+    Run various commands and options for ntfyme.
+    """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(script_dir, "config.toml")
     with open(config_path, "r") as file:
         config = toml.load(file)
 
-    log_pager = config["ntfyme"]["log_pager"]
     terminal_print = config["ntfyme"]["terminal_print"]
 
-    # Handling log and config arguments
-    if args.log:
-        log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
-        try:
-            subprocess.run([log_pager, log_path])
-        except Exception as e:
-            print(f"Error occurred in opening log file. Error: {e}")
-        return 0
-
-    if args.config:
-        config_path = os.path.join(script_dir, "config.toml")
-        editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
-        # Open the config.toml file in the editor
-        if platform.system() != "Windows":
-            print(
-                "For security reasons, please provide your sudo password to edit the config file."
-            )
-            subprocess.run(["sudo", editor, config_path])
-            return 0
-        subprocess.run([editor, config_path])
-        return 0
-
-    if args.enc:
-        print(
-            "Please provide your ntfyme_key for encrypting your password. This key is same throughout ntfyme. Whataver output you get will be based on the same key, please be mindful of the usage."
+    if enc:
+        click.echo(
+            "Please provide your ntfyme_key for encrypting your password. This key is the same throughout ntfyme. Whatever output you get will be based on the same key, please be mindful of the usage."
         )
-        key = input("Enter your ntfyme_key: ")
-        password = input("Enter your password: ")
+        key = click.prompt("Enter your ntfyme_key")
+        password = click.prompt("Enter your password", hide_input=True)
         encrypted_password = encrypt(password, key)
-        print(f"Encrypted password: {encrypted_password}")
-        return 0
+        click.echo(f"Encrypted password: {encrypted_password}")
+        return
 
-    if args.interactive_setup:
+    if interactive_setup:
         setup()
-        return 0
+        return
 
     results, key = None, None
-    log_info = {}
+    log_info = {"key": 0}
 
-    log_info["key"]=0
     if config["mail"]["enabled"] == "on":
-        key = input("Enter your ntfyme_key: ")
+        key = click.prompt("Enter your ntfyme_key", default="", show_default=False)
         if not key:
-            log_info["key"] = "1"
+            log_info["key"] = 1
 
-
-    if args.track_process:
+    if track_process:
         track_process = "on"
-        log_info["track_process"] = "0"
+        log_info["track_process"] = 0
     else:
         track_process = "off"
-        log_info["track_process"] = "1"
+        log_info["track_process"] = 1
 
     try:
-        if args.cmd:
-            results = direct_exec(args.cmd, terminal_print, track_process)
-            log_info["execution"] = ": Direct :: 0"
+        if cmd:
+            results = direct_exec(cmd, terminal_print, track_process)
+            log_info["execution"] = "Direct :: 0"
         else:
             results = pipe_exec(terminal_print, track_process)
-            log_info["execution"] = ": Pipe :: 0"
+            log_info["execution"] = "Pipe :: 0"
 
     except Exception as e:
-        print(f"Error occurred in command execution. Error: {e}")
+        click.echo(f"Error occurred in command execution. Error: {e}")
         log_info["error"] = "Execution: 1"
 
     try:
         notify(results, key)
-        log_info["notify"] = "0"
+        log_info["notify"] = 0
     except Exception as e:
-        print(f"Error occurred in notification. Error: {e}")
-        log_info["notify"] = "1"
+        click.echo(f"Error occurred in notification. Error: {e}")
+        log_info["notify"] = 1
 
     log_add(results, log_info)
-    return 0
+
+
+@main.command()
+def log():
+    """The command log of ntfyme"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    log_path = os.path.join(script_dir, "utils", "log", "ntfyme.log")
+    config_path = os.path.join(script_dir, "config.toml")
+    with open(config_path, "r") as file:
+        config = toml.load(file)
+
+    log_pager = config["ntfyme"]["log_pager"]
+
+    try:
+        subprocess.run([log_pager, log_path])
+    except Exception as e:
+        click.echo(f"Error occurred in opening log file. Error: {e}")
+
+
+@main.command()
+def config():
+    """The configuration file of ntfyme"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_path = os.path.join(script_dir, "config.toml")
+    editor = os.getenv("EDITOR", "nano")  # Default to nano if EDITOR is not set
+    # Open the config.toml file in the editor
+    if platform.system() != "Windows":
+        click.echo(
+            "For security reasons, please provide your sudo password to edit the config file."
+        )
+        subprocess.run(["sudo", editor, config_path])
+    else:
+        subprocess.run([editor, config_path])
 
 
 if __name__ == "__main__":
