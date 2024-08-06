@@ -29,7 +29,7 @@ This tool helps you ease your life with appropriate notifications you can set in
 
 ### Command line Usage
 
-https://github.com/user-attachments/assets/3cb70cc2-3f2b-49f9-bb0b-5223a225bad9
+https://github.com/user-attachments/assets/a96a55be-7a38-45b8-999d-11742801aaa9
 
 <br>
 You can run any command, from regular command line to computational biology commands to any other!
